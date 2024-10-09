@@ -63,9 +63,9 @@ s.listen(5)
 #     return l_speed, r_speed
 
 def calculate_rpm(encoder, dt, S):
-    if S == L:
+    if S == 'L':
         steps_per_rev = -70
-    if S == R:
+    if S == 'R':
         steps_per_rev = 70
     steps = encoder.steps
     print(f"dt:  {dt:.2f}")
