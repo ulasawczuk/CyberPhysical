@@ -78,6 +78,32 @@ def calculate_new_power(dt):
     print(f"RPM L: {rpmL:.2f}, RPM R: {rpmR:.2f}, L PID: {l_power:.2f}, R PID: {r_power:.2f}")
 
 
+def adjust_pid_constants(key):
+    global K_P, K_I, K_D
+
+    if key == 'z':
+        K_P += 0.01
+        print(f"K_P increased to {K_P:.2f}")
+    elif key == 'x':
+        K_P = max(0, K_P - 0.01)
+        print(f"K_P decreased to {K_P:.2f}")
+    elif key == 'c':
+        K_I += 0.01
+        print(f"K_I increased to {K_I:.2f}")
+    elif key == 'v':
+        K_I = max(0, K_I - 0.01)
+        print(f"K_I decreased to {K_I:.2f}")
+    elif key == 'b':
+        K_D += 0.01
+        print(f"K_D increased to {K_D:.2f}")
+    elif key == 'n':
+        K_D = max(0, K_D - 0.01)
+        print(f"K_D decreased to {K_D:.2f}")
+
+    # Update the PID controllers with the new constants
+    pidL.tunings = (K_P, K_I, K_D)
+    pidR.tunings = (K_P, K_I, K_D)
+
 # keep track of values for graph
 setpoint, y, x = [], [], []
 
@@ -129,8 +155,10 @@ while True:
                     target_rpm = 15
                 elif key == 'd':  # Turning right
                     target_rpm = 15
-                elif key == 'b':  # Stop
+                elif key == 'q':  # Stop
                     target_rpm = 0
+
+                adjust_pid_constants(key)
 
             except ConnectionResetError:
                 print("Client disconnected abruptly.")
