@@ -59,7 +59,7 @@ s.listen(5)
 def calculate_rpm(encoder, dt):
     steps_per_rev = 0.7
     steps = encoder.steps
-    print(f"steps:  {steps:.2f}")
+    print(f"dt:  {dt:.2f}")
     rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
     encoder.steps = 0  # Reset the steps for the next calculation
     return rpm
