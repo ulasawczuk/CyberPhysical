@@ -123,6 +123,9 @@ while True:
     last_time = time.time()
     lprevsteps = 0
     rprevsteps = 0
+
+    motorL.throttle = 0
+    motorR.throttle = 0
     
     while True:
         current_time = time.time()
