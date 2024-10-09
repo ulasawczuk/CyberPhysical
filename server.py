@@ -70,8 +70,8 @@ def update(l_motor_power, r_motor_power):
 def calculate_new_power(dt):
     rpmL = calculate_rpm(encL, dt)
     rpmR = calculate_rpm(encR, dt)
-    l_power = pidL(rpmL)
-    r_power = pidR(rpmR)
+    l_power = pidL(rpmL, dt)
+    r_power = pidR(rpmR, dt)
     update(l_power, r_power)
 
     print(f"RPM L: {rpmL:.2f}, RPM R: {rpmR:.2f}, L PID: {l_power:.2f}, R PID: {r_power:.2f}")
