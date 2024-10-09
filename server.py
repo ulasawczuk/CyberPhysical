@@ -24,7 +24,7 @@ encL = RotaryEncoder(13, 6, max_steps = 0)  # Left motor encoder (replace with a
 encR = RotaryEncoder(19, 26, max_steps = 0) 
 
 # PID constants
-K_P = 0.1
+K_P = 0.01
 K_I = 0.001
 K_D = 0.001
 
@@ -56,18 +56,28 @@ except socket.error as e:
 # Max 5 pending connections
 s.listen(5)
 
-def get_steps_p_sam(dt, lprevsteps, rprevsteps):
-    l_speed = (encL.steps - lprevsteps) / (dt)
-    r_speed = (encR.steps - rprevsteps) / (dt)
-    print(f"steps L: {encL.steps:.2f}, steps R: {encR.steps:.2f}")
-    return l_speed, r_speed
+# def get_steps_p_sam(dt, lprevsteps, rprevsteps):
+#     l_speed = (encL.steps - lprevsteps) / (dt)
+#     r_speed = (encR.steps - rprevsteps) / (dt)
+#     print(f"steps L: {encL.steps:.2f}, steps R: {encR.steps:.2f}")
+#     return l_speed, r_speed
+
+def calculate_rpm(encoder, dt):
+    steps_per_rev = 70
+    steps = encoder.steps
+    print(f"dt:  {dt:.2f}")
+    rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
+    encoder.steps = 0  # Reset the steps for the next calculation
+    return rpm
 
 def update(l_motor_power, r_motor_power):
     motorL.throttle = l_motor_power
     motorR.throttle = r_motor_power
 
 def calculate_new_power(dt, lprevsteps, rprevsteps):
-    rpmL, rpmR = get_steps_p_sam(dt, lprevsteps, rprevsteps)
+    rpmL = calculate_rpm(encL, dt)
+    rpmR = calculate_rpm(encR, dt)
+    # rpmL, rpmR = get_steps_p_sam(dt, lprevsteps, rprevsteps)
     l_power = pidL(rpmL, dt)
     r_power = pidR(rpmR, dt)
     update(l_power, r_power)
