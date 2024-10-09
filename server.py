@@ -30,6 +30,8 @@ K_D = 0.001
 
 # Target speed in RPM
 target_rpm = 200  # Default target RPM
+lprevsteps = 0
+rprevsteps = 0
 
 # Initialize PID controllers for both motors
 pidL = PID(K_P, K_I, K_D, setpoint=target_rpm)
@@ -57,9 +59,10 @@ except socket.error as e:
 s.listen(5)
 
 def get_steps_p_sam(dt):
-        l_speed = (encL.steps - encL.lprevstep) / (dt)
-        r_speed = (encR.steps - encR.rprevstep) / (dt)
-
+        l_speed = (encL.steps - lprevsteps) / (dt)
+        r_speed = (encR.steps - rprevsteps) / (dt)
+        lprevsteps = encL.steps
+        rprevsteps = encR.steps
         return l_speed, r_speed
 
 def update(l_motor_power, r_motor_power):
