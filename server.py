@@ -24,7 +24,7 @@ encL = RotaryEncoder(13, 6)  # Left motor encoder (replace with actual GPIO pins
 encR = RotaryEncoder(19, 26) 
 
 # PID constants
-K_P = 5
+K_P = 5000
 K_I = 0.1
 K_D = 5
 
