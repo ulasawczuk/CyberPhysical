@@ -36,8 +36,8 @@ pidL = PID(K_P, K_I, K_D, setpoint=target_rpm)
 pidR = PID(K_P, K_I, K_D, setpoint=target_rpm)
 
 # Set output limits for the PID to match the motor throttle range [0, 1]
-pidL.output_limits = (0, 100)
-pidR.output_limits = (0, 100)
+pidL.output_limits = (0, 1)
+pidR.output_limits = (0, 1)
 
 # Create socket
 s = socket.socket()
@@ -57,15 +57,15 @@ except socket.error as e:
 s.listen(5)
 
 def calculate_rpm(encoder, dt):
-    steps_per_rev = 700
+    steps_per_rev = 7
     steps = encoder.steps
     rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
     encoder.steps = 0  # Reset the steps for the next calculation
     return rpm
 
 def update(l_motor_power, r_motor_power):
-    motorL.throttle = l_motor_power/100
-    motorR.throttle = r_motor_power/100
+    motorL.throttle = l_motor_power
+    motorR.throttle = r_motor_power
 
 def calculate_new_power(dt):
     rpmL = calculate_rpm(encL, dt)
