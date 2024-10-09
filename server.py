@@ -56,8 +56,6 @@ except socket.error as e:
 # Max 5 pending connections
 s.listen(5)
 
-
-# Function to calculate RPM from encoder readings
 def calculate_rpm(encoder, dt):
     steps_per_rev = 700
     steps = encoder.steps
@@ -65,61 +63,19 @@ def calculate_rpm(encoder, dt):
     encoder.steps = 0  # Reset the steps for the next calculation
     return rpm
 
-# Function to manually compute the control effort using the provided PID formula
-def manual_pid_control(error, integral, previous_error, dt):
-    integral += error * dt
-    derivative = (error - previous_error) / dt
-    control_effort = K_P * error + K_I * integral + K_D * derivative
-    return control_effort, integral, error
+def update(l_motor_power, r_motor_power):
+    motorL.throttle = l_motor_power
+    motorR.throttle = r_motor_power
 
-# Function to control motors using both PID and manual calculation
-def control_motors():
-    current_time = time.time()
-    dt = current_time - control_motors.prev_time
-    control_motors.prev_time = current_time
-
-    # Calculate RPM for both motors
+def calculate_new_power(dt):
     rpmL = calculate_rpm(encL, dt)
     rpmR = calculate_rpm(encR, dt)
+    l_power = pidL(rpmL)
+    r_power = pidR(rpmR)
+    update(l_power, r_power)
 
-    # Update PID controllers with current RPM feedback
-    pidL.setpoint = target_rpm
-    pidR.setpoint = target_rpm
+    print(f"RPM L: {rpmL:.2f}, RPM R: {rpmR:.2f}, L PID: {l_power:.2f}, R PID: {r_power:.2f}")
 
-    # Compute the control effort from the PID controllers
-    controlL_pid = pidL(rpmL)
-    controlR_pid = pidR(rpmR)
-
-    # Calculate errors for manual PID control
-    errorL = target_rpm - rpmL
-    errorR = target_rpm - rpmR
-
-    # Manual PID control for left motor
-    global integralL, previous_errorL
-    controlL_manual, integralL, previous_errorL = manual_pid_control(errorL, integralL, previous_errorL, dt)
-    controlL_manual = max(0, min(controlL_manual, 1))  # Limit control effort to [0, 1]
-
-    # Manual PID control for right motor
-    global integralR, previous_errorR
-    controlR_manual, integralR, previous_errorR = manual_pid_control(errorR, integralR, previous_errorR, dt)
-    controlR_manual = max(0, min(controlR_manual, 1))  # Limit control effort to [0, 1]
-
-    # Combine PID and manual control efforts (for demonstration)
-    motorL.throttle = (controlL_pid + controlL_manual) / 2
-    motorR.throttle = (controlR_pid + controlR_manual) / 2
-
-    # Print feedback for debugging
-    print(f"RPM L: {rpmL}, RPM R: {rpmR}, Control L PID: {controlL_pid}, Control R PID: {controlR_pid}")
-    print(f"Control L Manual: {controlL_manual}, Control R Manual: {controlR_manual}")
-
-# Initialize previous time for PID control
-control_motors.prev_time = time.time()
-
-# Initialize integral and previous error for manual PID
-integralL = 0
-previous_errorL = 0
-integralR = 0
-previous_errorR = 0
 
 # keep track of values for graph
 setpoint, y, x = [], [], []
@@ -130,12 +86,13 @@ while True:
     print('Got connection from', addr)
     
     c.send(b'Thank you for connecting')
-    last_control_time = time.time()
+    last_time = time.time()
     
     while True:
         current_time = time.time()
-        if current_time - last_control_time >= 0.2:
-            control_motors()  # Update motor control
+        if current_time - last_time >= 0.2:
+            dt = current_time - last_time
+            calculate_new_power(dt)  # Update motor control
             last_control_time = current_time  # Reset control time
         
         # Use select to check if there's data to read from the client
