@@ -25,14 +25,14 @@ encR = RotaryEncoder(19, 26, max_steps = 0)
 
 # PID constants
 K_P = 0.0007
-K_I = 0.001
+K_I = 0
 K_D = 0.0001
 
 # Target speed in RPM
 target_rpm = 400  # Default target RPM
 
 # Initialize PID controllers for both motors
-pidL = PID(K_P, K_I, K_D, setpoint=-1*target_rpm)
+pidL = PID(K_P, K_I, K_D, setpoint=target_rpm)
 pidR = PID(K_P, K_I, K_D, setpoint=target_rpm)
 
 # Set output limits for the PID to match the motor throttle range [0, 1]
