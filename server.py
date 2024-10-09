@@ -24,12 +24,12 @@ encL = RotaryEncoder(13, 6, max_steps = 0)  # Left motor encoder (replace with a
 encR = RotaryEncoder(19, 26, max_steps = 0) 
 
 # PID constants
-K_P = 0.1
-K_I = 0
-K_D = 0
+K_P = 0.001
+K_I = 0.001
+K_D = 0.001
 
 # Target speed in RPM
-target_rpm = 20  # Default target RPM
+target_rpm = 200  # Default target RPM
 
 # Initialize PID controllers for both motors
 pidL = PID(K_P, K_I, K_D, setpoint=target_rpm)
@@ -57,7 +57,7 @@ except socket.error as e:
 s.listen(5)
 
 def calculate_rpm(encoder, dt):
-    steps_per_rev = 700
+    steps_per_rev = 70
     steps = encoder.steps
     print(f"dt:  {dt:.2f}")
     rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
