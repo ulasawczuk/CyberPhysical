@@ -62,8 +62,11 @@ s.listen(5)
 #     print(f"steps L: {encL.steps:.2f}, steps R: {encR.steps:.2f}")
 #     return l_speed, r_speed
 
-def calculate_rpm(encoder, dt):
-    steps_per_rev = 70
+def calculate_rpm(encoder, dt, S):
+    if S == L:
+        steps_per_rev = -70
+    if S == R:
+        steps_per_rev = 70
     steps = encoder.steps
     print(f"dt:  {dt:.2f}")
     rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
@@ -75,8 +78,8 @@ def update(l_motor_power, r_motor_power):
     motorR.throttle = max(-1, min(r_motor_power + motorR.throttle, 1))
 
 def calculate_new_power(dt, lprevsteps, rprevsteps):
-    rpmL = calculate_rpm(encL, dt)
-    rpmR = calculate_rpm(encR, dt)
+    rpmL = calculate_rpm(encL, dt, L)
+    rpmR = calculate_rpm(encR, dt, R)
     # rpmL, rpmR = get_steps_p_sam(dt, lprevsteps, rprevsteps)
     l_power = pidL(rpmL, dt)
     r_power = pidR(rpmR, dt)
