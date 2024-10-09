@@ -26,7 +26,7 @@ encR = RotaryEncoder(19, 26, max_steps = 0)
 # PID constants
 K_P = 0.0007
 K_I = 0
-K_D = 0.0001
+K_D = 0.0009
 
 # Target speed in RPM
 target_rpm = 300  # Default target RPM
