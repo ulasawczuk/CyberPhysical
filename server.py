@@ -29,7 +29,7 @@ K_I = 0.1
 K_D = 5
 
 # Target speed in RPM
-target_rpm = 60  # Default target RPM
+target_rpm = 30  # Default target RPM
 
 # Initialize PID controllers for both motors
 pidL = PID(K_P, K_I, K_D, setpoint=target_rpm)
