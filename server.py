@@ -57,9 +57,10 @@ except socket.error as e:
 s.listen(5)
 
 def get_steps_p_sam(dt, lprevsteps, rprevsteps):
-        l_speed = (encL.steps - lprevsteps) / (dt)
-        r_speed = (encR.steps - rprevsteps) / (dt)
-        return l_speed, r_speed
+    l_speed = (encL.steps - lprevsteps) / (dt)
+    r_speed = (encR.steps - rprevsteps) / (dt)
+    print(f"steps L: {encL.steps:.2f}, steps R: {encR.steps:.2f}")
+    return l_speed, r_speed
 
 def update(l_motor_power, r_motor_power):
     motorL.throttle = l_motor_power
