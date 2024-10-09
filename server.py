@@ -56,21 +56,18 @@ except socket.error as e:
 # Max 5 pending connections
 s.listen(5)
 
-def calculate_rpm(encoder, dt):
-    steps_per_rev = 70
-    steps = encoder.steps
-    print(f"dt:  {dt:.2f}")
-    rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
-    encoder.steps = 0  # Reset the steps for the next calculation
-    return rpm
+def get_steps_p_sam(dt):
+        l_speed = (encL.steps - encL.lprevstep) / (dt)
+        r_speed = (encR.steps - encR.rprevstep) / (dt)
+
+        return l_speed, r_speed
 
 def update(l_motor_power, r_motor_power):
     motorL.throttle = l_motor_power
     motorR.throttle = r_motor_power
 
 def calculate_new_power(dt):
-    rpmL = calculate_rpm(encL, dt)
-    rpmR = calculate_rpm(encR, dt)
+    rpmL, rpmR = get_steps_p_sam(dt)
     l_power = pidL(rpmL, dt)
     r_power = pidR(rpmR, dt)
     update(l_power, r_power)
