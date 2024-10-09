@@ -24,9 +24,9 @@ encL = RotaryEncoder(13, 6, max_steps = 0)  # Left motor encoder (replace with a
 encR = RotaryEncoder(19, 26, max_steps = 0) 
 
 # PID constants
-K_P = 0.02
+K_P = 0.002
 K_I = 0
-K_D = 0.5
+K_D = 0
 
 # Target speed in RPM
 target_rpm = 20  # Default target RPM
