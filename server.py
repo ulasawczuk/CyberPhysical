@@ -26,7 +26,7 @@ encR = RotaryEncoder(19, 26)
 # PID constants
 K_P = 5
 K_I = 0.1
-K_D = 0.01
+K_D = 5
 
 # Target speed in RPM
 target_rpm = 60  # Default target RPM
