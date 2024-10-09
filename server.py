@@ -56,19 +56,17 @@ except socket.error as e:
 # Max 5 pending connections
 s.listen(5)
 
-def get_steps_p_sam(dt):
+def get_steps_p_sam(dt, lprevsteps, rprevsteps):
         l_speed = (encL.steps - lprevsteps) / (dt)
         r_speed = (encR.steps - rprevsteps) / (dt)
-        lprevsteps = encL.steps
-        rprevsteps = encR.steps
         return l_speed, r_speed
 
 def update(l_motor_power, r_motor_power):
     motorL.throttle = l_motor_power
     motorR.throttle = r_motor_power
 
-def calculate_new_power(dt):
-    rpmL, rpmR = get_steps_p_sam(dt)
+def calculate_new_power(dt, lprevsteps, rprevsteps):
+    rpmL, rpmR = get_steps_p_sam(dt, lprevsteps, rprevsteps)
     l_power = pidL(rpmL, dt)
     r_power = pidR(rpmR, dt)
     update(l_power, r_power)
@@ -120,12 +118,15 @@ while True:
         if current_time - last_time >= 0.5:
 
             dt = current_time - last_time
-            calculate_new_power(dt)  # Update motor control
+            calculate_new_power(dt, lprevsteps, rprevsteps)  # Update motor control
             last_time = current_time  # Reset control time
 
             x += [current_time - last_time]
             y += [motorL.throttle]
             setpoint += [pidL.setpoint]
+
+            lprevsteps = encL.steps
+            rprevsteps = encR.steps
         
         # Use select to check if there's data to read from the client
         ready_to_read, _, _ = select.select([c], [], [], 0.1)  # Wait for 0.1 seconds
