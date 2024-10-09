@@ -57,7 +57,7 @@ except socket.error as e:
 s.listen(5)
 
 def calculate_rpm(encoder, dt):
-    steps_per_rev = 7
+    steps_per_rev = 1
     steps = encoder.steps
     rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
     encoder.steps = 0  # Reset the steps for the next calculation
