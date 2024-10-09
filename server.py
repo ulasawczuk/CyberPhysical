@@ -71,8 +71,8 @@ def calculate_rpm(encoder, dt):
     return rpm
 
 def update(l_motor_power, r_motor_power):
-    motorL.throttle = l_motor_power
-    motorR.throttle = r_motor_power
+    motorL.throttle = max(-1, min(l_motor_power + motorL.throttle, 1))
+    motorR.throttle = max(-1, min(r_motor_power + motorR.throttle, 1))
 
 def calculate_new_power(dt, lprevsteps, rprevsteps):
     rpmL = calculate_rpm(encL, dt)
