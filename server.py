@@ -95,7 +95,7 @@ while True:
 
             dt = current_time - last_time
             calculate_new_power(dt)  # Update motor control
-            last_control_time = current_time  # Reset control time
+            last_time = current_time  # Reset control time
 
             x += [current_time - last_time]
             y += [motorL.throttle]
