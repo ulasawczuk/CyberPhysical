@@ -24,7 +24,7 @@ encL = RotaryEncoder(13, 6)  # Left motor encoder (replace with actual GPIO pins
 encR = RotaryEncoder(19, 26) 
 
 # PID constants
-K_P = 5000
+K_P = 5
 K_I = 0.1
 K_D = 5
 
@@ -59,6 +59,7 @@ s.listen(5)
 def calculate_rpm(encoder, dt):
     steps_per_rev = 0.7
     steps = encoder.steps
+    print(f"steps:  {steps:.2f}")
     rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
     encoder.steps = 0  # Reset the steps for the next calculation
     return rpm
