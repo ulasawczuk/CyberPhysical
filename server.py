@@ -75,7 +75,7 @@ def update(l_motor_power, r_motor_power):
     motorR.throttle = max(-1, min(r_motor_power + motorR.throttle, 1))
 
 def calculate_new_power(dt, lprevsteps, rprevsteps):
-    rpmL = calculate_rpm(encL, dt)
+    rpmL = calculate_rpm(encL, dt) * -1
     rpmR = calculate_rpm(encR, dt)
     # rpmL, rpmR = get_steps_p_sam(dt, lprevsteps, rprevsteps)
     l_power = pidL(rpmL, dt)
