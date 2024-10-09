@@ -30,8 +30,6 @@ K_D = 0.001
 
 # Target speed in RPM
 target_rpm = 200  # Default target RPM
-lprevsteps = 0
-rprevsteps = 0
 
 # Initialize PID controllers for both motors
 pidL = PID(K_P, K_I, K_D, setpoint=target_rpm)
@@ -114,6 +112,8 @@ while True:
     
     c.send(b'Thank you for connecting')
     last_time = time.time()
+    lprevsteps = 0
+    rprevsteps = 0
     
     while True:
         current_time = time.time()
