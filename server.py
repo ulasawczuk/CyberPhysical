@@ -29,7 +29,7 @@ K_I = 0.1
 K_D = 5
 
 # Target speed in RPM
-target_rpm = 30  # Default target RPM
+target_rpm = 400  # Default target RPM
 
 # Initialize PID controllers for both motors
 pidL = PID(K_P, K_I, K_D, setpoint=target_rpm)
@@ -57,7 +57,7 @@ except socket.error as e:
 s.listen(5)
 
 def calculate_rpm(encoder, dt):
-    steps_per_rev = 0.07
+    steps_per_rev = 0.7
     steps = encoder.steps
     rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
     encoder.steps = 0  # Reset the steps for the next calculation
