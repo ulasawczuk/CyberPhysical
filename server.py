@@ -20,8 +20,8 @@ motorL.decay_mode = motor.SLOW_DECAY
 motorR.decay_mode = motor.SLOW_DECAY
 
 # Encoder setup
-encL = RotaryEncoder(13, 6)  # Left motor encoder (replace with actual GPIO pins)
-encR = RotaryEncoder(19, 26) 
+encL = RotaryEncoder(13, 6, max_steps = 0)  # Left motor encoder (replace with actual GPIO pins)
+encR = RotaryEncoder(19, 26, max_steps = 0) 
 
 # PID constants
 K_P = 0.2
