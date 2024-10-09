@@ -24,9 +24,9 @@ encL = RotaryEncoder(13, 6)  # Left motor encoder (replace with actual GPIO pins
 encR = RotaryEncoder(19, 26) 
 
 # PID constants
-K_P = 5
-K_I = 0.1
-K_D = 5
+K_P = 0.2
+K_I = 0
+K_D = 0
 
 # Target speed in RPM
 target_rpm = 400  # Default target RPM
@@ -57,7 +57,7 @@ except socket.error as e:
 s.listen(5)
 
 def calculate_rpm(encoder, dt):
-    steps_per_rev = 0.7
+    steps_per_rev = 700
     steps = encoder.steps
     print(f"dt:  {dt:.2f}")
     rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
