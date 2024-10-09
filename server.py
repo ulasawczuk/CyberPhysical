@@ -25,8 +25,8 @@ encR = RotaryEncoder(19, 26)
 
 # PID constants
 K_P = 5
-K_I = 4
-K_D = 8
+K_I = 0.1
+K_D = 0.01
 
 # Target speed in RPM
 target_rpm = 60  # Default target RPM
@@ -36,8 +36,8 @@ pidL = PID(K_P, K_I, K_D, setpoint=target_rpm)
 pidR = PID(K_P, K_I, K_D, setpoint=target_rpm)
 
 # Set output limits for the PID to match the motor throttle range [0, 1]
-pidL.output_limits = (0, 1)
-pidR.output_limits = (0, 1)
+pidL.output_limits = (0, 100)
+pidR.output_limits = (0, 100)
 
 # Create socket
 s = socket.socket()
@@ -64,8 +64,8 @@ def calculate_rpm(encoder, dt):
     return rpm
 
 def update(l_motor_power, r_motor_power):
-    motorL.throttle = l_motor_power
-    motorR.throttle = r_motor_power
+    motorL.throttle = l_motor_power/100
+    motorR.throttle = r_motor_power/100
 
 def calculate_new_power(dt):
     rpmL = calculate_rpm(encL, dt)
@@ -90,10 +90,15 @@ while True:
     
     while True:
         current_time = time.time()
-        if current_time - last_time >= 0.2:
+        if current_time - last_time >= 0.5:
+
             dt = current_time - last_time
             calculate_new_power(dt)  # Update motor control
             last_control_time = current_time  # Reset control time
+
+            x += [current_time - last_time]
+            y += [motorL.throttle]
+            setpoint += [pidL.setpoint]
         
         # Use select to check if there's data to read from the client
         ready_to_read, _, _ = select.select([c], [], [], 0.1)  # Wait for 0.1 seconds
