@@ -90,22 +90,22 @@ def adjust_pid_constants(key):
 
     if key == 'z':
         K_P += 0.0001
-        print(f"K_P increased to {K_P:.2f}")
+        print(f"K_P increased to {K_P:.4f}")
     elif key == 'x':
         K_P = max(0, K_P - 0.0001)
-        print(f"K_P decreased to {K_P:.2f}")
+        print(f"K_P decreased to {K_P:.4f}")
     elif key == 'c':
         K_I += 0.0001
-        print(f"K_I increased to {K_I:.2f}")
+        print(f"K_I increased to {K_I:.4f}")
     elif key == 'v':
         K_I = max(0, K_I - 0.0001)
-        print(f"K_I decreased to {K_I:.2f}")
+        print(f"K_I decreased to {K_I:.4f}")
     elif key == 'b':
         K_D += 0.0001
-        print(f"K_D increased to {K_D:.2f}")
+        print(f"K_D increased to {K_D:.4f}")
     elif key == 'n':
         K_D = max(0, K_D - 0.0001)
-        print(f"K_D decreased to {K_D:.2f}")
+        print(f"K_D decreased to {K_D:.4f}")
 
     # Update the PID controllers with the new constants
     pidL.tunings = (K_P, K_I, K_D)
