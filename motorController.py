@@ -7,8 +7,8 @@ from simple_pid import PID
 class MotorController:
     def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=300):
         # Motor setup
-        pwm1 = pwmio.PWMOut(pwm1_pin)
-        pwm2 = pwmio.PWMOut(pwm2_pin)
+        self.pwm1 = pwmio.PWMOut(pwm1_pin)
+        self.pwm2 = pwmio.PWMOut(pwm2_pin)
         self.motor = motor.DCMotor(pwm1, pwm2)
         self.motor.decay_mode = motor.SLOW_DECAY
 
@@ -33,7 +33,7 @@ class MotorController:
         return rpm
 
     def update_motor_power(self, dt):
-        if self.pwm1 == board.D21:
+        if self.pwm1.pin == board.D21:
             rpm = self.calculate_rpm(dt) * -1
         else:
             rpm = self.calculate_rpm(dt)
