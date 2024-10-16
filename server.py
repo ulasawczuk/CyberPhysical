@@ -71,7 +71,7 @@ while True:
                 print(f"Key received from client: {key}")
 
                 # Different keys control the target speed
-                SPEED_INCREMENT = 50  # or any reasonable value
+                SPEED_INCREMENT = 5 
 
                 if key == 'w':
                     print('Moving forward')
