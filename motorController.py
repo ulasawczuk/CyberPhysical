@@ -8,9 +8,9 @@ class MotorController:
 
     def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=300):
         # Motor setup
-        self.pwm1 = pwmio.PWMOut(pwm1_pin)
-        self.pwm2 = pwmio.PWMOut(pwm2_pin)
-        self.motor = motor.DCMotor(self.pwm1, self.pwm2)
+        pwm1 = pwmio.PWMOut(pwm1_pin)
+        pwm2 = pwmio.PWMOut(pwm2_pin)
+        self.motor = motor.DCMotor(pwm1, pwm2)
         self.motor.decay_mode = motor.SLOW_DECAY
 
         if pwm1_pin == board.D21:
@@ -23,7 +23,7 @@ class MotorController:
 
         # PID constants
         self.K_P = 0.0007
-        self.K_I = 0
+        self.K_I = 0.0001
         self.K_D = 0.0001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
         self.pid.output_limits = (-1, 1)
