@@ -41,7 +41,7 @@ class MotorController:
     def update_motor_power(self, dt):
         rpm = self.calculate_rpm(dt)
         
-        //self.pid.setpoint = self.target_rpm
+        #self.pid.setpoint = self.target_rpm
         power = self.pid(rpm)
         
 
