@@ -5,12 +5,18 @@ from adafruit_motor import motor
 from simple_pid import PID
 
 class MotorController:
+
     def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=300):
         # Motor setup
         self.pwm1 = pwmio.PWMOut(pwm1_pin)
         self.pwm2 = pwmio.PWMOut(pwm2_pin)
         self.motor = motor.DCMotor(self.pwm1, self.pwm2)
         self.motor.decay_mode = motor.SLOW_DECAY
+
+        if pwm1_pin == board.D21:
+            self.side = "L"  # Set the side to "L" for left motor
+        else:
+            self.side = "R"
 
         # Encoder setup
         self.encoder = RotaryEncoder(enc_a_pin, enc_b_pin, max_steps=0)
@@ -33,7 +39,7 @@ class MotorController:
         return rpm
 
     def update_motor_power(self, dt):
-        if self.pwm1 == board.D21:
+        if self.side == "L":
             rpm = self.calculate_rpm(dt) * -1
         else:
             rpm = self.calculate_rpm(dt)
