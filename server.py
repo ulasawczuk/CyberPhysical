@@ -50,9 +50,18 @@ while True:
         if current_time - last_time >= 0.2:
             dt = current_time - last_time
 
-            #motorL.update_motor_power(dt)
-            #motorR.update_motor_power(dt)
+            motorL.update_motor_power(dt)
+            motorR.update_motor_power(dt)
             distanceSensor.start_measurement()
+            voltage, distance = distanceSensor.read_distance()
+
+            if distance <= 20:
+                while distance <= 28:
+                    motorL.update_target_rpm(-60)
+                    motorR.update_target_rpm(-60)
+
+                motorL.update_target_rpm(40)
+                motorR.update_target_rpm(40)
 
             last_time = current_time  # Reset control time
 
