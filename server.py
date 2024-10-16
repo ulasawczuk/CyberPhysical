@@ -163,12 +163,12 @@ while True:
                 # Different keys control the target speed
                 if key == 'w':
                     print('Moving forward')
-                    target_rpmL = target_rpmL + 100
-                    target_rpmR = target_rpmR + 100
+                    target_rpmL = target_rpmL + 300
+                    target_rpmR = target_rpmR + 300
                 elif key == 's':
                     print('Moving backward')
-                    target_rpmL = (-1 * target_rpmL) - 100
-                    target_rpmR = (-1 * target_rpmR) - 100
+                    target_rpmL = (-1 * target_rpmL) - 300
+                    target_rpmR = (-1 * target_rpmR) - 300
                 elif key == 'a':  # Turning left
                     target_rpmL = 300
                     target_rpmR = 150
