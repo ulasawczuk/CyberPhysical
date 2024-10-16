@@ -29,8 +29,8 @@ K_I = 0
 K_D = 0.0001
 
 # Target speed in RPM
-target_rpmL = 0  # Default target RPM
-target_rpmR = 0
+target_rpmL = 300  # Default target RPM
+target_rpmR = 300
 
 # Initialize PID controllers for both motors
 pidL = PID(K_P, K_I, K_D, setpoint=target_rpmL)
@@ -178,8 +178,8 @@ while True:
                 elif key == 'q':  # Stop
                     target_rpm = 0
 
-                pidL = PID(K_P, K_I, K_D, setpoint=target_rpmL)
-                pidR = PID(K_P, K_I, K_D, setpoint=target_rpmR)
+                #pidL = PID(K_P, K_I, K_D, setpoint=target_rpmL)
+                #pidR = PID(K_P, K_I, K_D, setpoint=target_rpmR)
                 
                 adjust_pid_constants(key)
 
