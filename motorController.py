@@ -9,7 +9,7 @@ class MotorController:
         # Motor setup
         self.pwm1 = pwmio.PWMOut(pwm1_pin)
         self.pwm2 = pwmio.PWMOut(pwm2_pin)
-        self.motor = motor.DCMotor(pwm1, pwm2)
+        self.motor = motor.DCMotor(self.pwm1, self.pwm2)
         self.motor.decay_mode = motor.SLOW_DECAY
 
         # Encoder setup
