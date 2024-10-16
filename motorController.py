@@ -26,7 +26,7 @@ class MotorController:
         self.K_I = 0
         self.K_D = 0.0001
         self.PID = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
-        self.pid.output_limits = (-1, 1)
+        self.PID.output_limits = (-1, 1)
 
         self.target_rpm = target_rpm
 
