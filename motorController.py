@@ -23,7 +23,7 @@ class MotorController:
 
         # PID constants
         self.K_P = 0.0007
-        self.K_I = 0.0001
+        self.K_I = 0
         self.K_D = 0.0001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
         self.pid.output_limits = (-1, 1)
@@ -31,7 +31,7 @@ class MotorController:
         self.target_rpm = target_rpm
 
     def calculate_rpm(self, dt):
-        steps_per_rev = 70
+        steps_per_rev = 700
         steps = self.encoder.steps
         rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
         self.encoder.steps = 0  # Reset the steps for the next calculation
