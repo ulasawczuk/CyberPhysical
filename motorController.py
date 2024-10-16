@@ -44,8 +44,7 @@ class MotorController:
         
         self.power = self.pid(rpm, dt)
 
-        if self.power != 0:
-            self.motor.throttle = max(-1, min(self.power + self.motor.throttle, 1))
+        self.motor.throttle = max(-1, min(self.power + self.motor.throttle, 1))
 
         print(f"RPM: {rpm:.2f}, PID Output Power: {self.power:.2f}, Motor Throttle: {self.motor.throttle:.2f}")
 
