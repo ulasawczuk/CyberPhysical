@@ -71,11 +71,11 @@ while True:
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
 
-            voltage, distance = distanceSensor.read_distance()
-            print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
+            #voltage, distance = distanceSensor.read_distance()
+            #print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
 
             # Handle distance-based control
-            handle_distance(distance)
+            #handle_distance(distance)
 
             last_time = current_time  # Reset control time
 
