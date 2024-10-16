@@ -1,5 +1,5 @@
-import os
-import time
+# distanceSensorObject.py
+
 import busio
 import digitalio
 import board
@@ -50,20 +50,3 @@ class DistanceSensor:
         voltage = self.channel.voltage
         distance = self.voltage_to_distance(voltage)
         return voltage, distance
-
-    def start_measurement(self):
-        """Starts continuous measurement at the given time interval (in seconds)."""
-        try:
-            while True:
-                voltage, distance = self.read_distance()
-                print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
-        except KeyboardInterrupt:
-            print("Measurement stopped by user")
-
-# Usage example
-if __name__ == "__main__":
-    # Initialize the distance sensor (using board pins for clock, miso, mosi, and cs)
-    sensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D5)
-
-    # Start continuous measurement
-    sensor.start_measurement()

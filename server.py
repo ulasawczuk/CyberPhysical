@@ -33,6 +33,24 @@ motorR = MotorController(board.D25, board.D24, 13, 6)  # Right motor
 
 distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D22)
 
+def handle_distance(distance):
+    """
+    Handles motor control based on the measured distance.
+    """
+    # Define distance thresholds
+    STOP_DISTANCE = 20  # cm
+    RESUME_DISTANCE = 28  # cm
+
+    if distance <= STOP_DISTANCE:
+        print(f"Distance {distance:.2f} cm <= {STOP_DISTANCE} cm. Stopping motors.")
+        # Set motors to move backward
+        motorL.update_target_rpm(-60)
+        motorR.update_target_rpm(-60)
+    elif distance > RESUME_DISTANCE:
+        print(f"Distance {distance:.2f} cm > {RESUME_DISTANCE} cm. Resuming forward motion.")
+        # Resume forward motion
+        motorL.update_target_rpm(40)
+        motorR.update_target_rpm(40)
 
 while True:
     # Accept a connection
@@ -52,16 +70,12 @@ while True:
 
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
-            distanceSensor.start_measurement()
+
             voltage, distance = distanceSensor.read_distance()
+            print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
 
-            if distance <= 20:
-                while distance <= 28:
-                    motorL.update_target_rpm(-60)
-                    motorR.update_target_rpm(-60)
-
-                motorL.update_target_rpm(40)
-                motorR.update_target_rpm(40)
+            # Handle distance-based control
+            handle_distance(distance)
 
             last_time = current_time  # Reset control time
 
