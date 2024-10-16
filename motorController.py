@@ -6,7 +6,7 @@ from simple_pid import PID
 
 class MotorController:
 
-    def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=300):
+    def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=40):
         # Motor setup
         pwm1 = pwmio.PWMOut(pwm1_pin)
         pwm2 = pwmio.PWMOut(pwm2_pin)
@@ -22,7 +22,7 @@ class MotorController:
         self.encoder = RotaryEncoder(enc_a_pin, enc_b_pin, max_steps=0)
 
         # PID constants
-        self.K_P = 0.0007
+        self.K_P = 0.003
         self.K_I = 0
         self.K_D = 0.0001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
