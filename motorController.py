@@ -6,7 +6,7 @@ from simple_pid import PID
 
 class MotorController:
 
-    def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=-40):
+    def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=40):
         # Motor setup
         pwm1 = pwmio.PWMOut(pwm1_pin)
         pwm2 = pwmio.PWMOut(pwm2_pin)
@@ -24,7 +24,7 @@ class MotorController:
         # PID constants
         self.K_P = 0.001
         self.K_I = 0.0001
-        self.K_D = 0.0005
+        self.K_D = 0.0001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
         self.pid.output_limits = (-1, 1) 
 
@@ -42,7 +42,12 @@ class MotorController:
         rpm = self.calculate_rpm(dt)
         
         self.pid.setpoint = self.target_rpm
-        power = self.pid(rpm)
+        #power = self.pid(rpm)
+
+        if rpm >= self.target_rpm + 2 and rpm <= self.target_rpm - 2:
+            power = 0
+        else:
+            power = self.pid(rpm)
 
         self.motor.throttle = max(-1, min(power + self.motor.throttle, 1))
         print(f"RPM: {rpm:.2f}, PID Output Power: {power:.2f}, Motor Throttle: {self.motor.throttle:.2f}")
