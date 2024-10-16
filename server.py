@@ -27,35 +27,16 @@ except socket.error as e:
 # Max 5 pending connections
 s.listen(5)
 
+STOP_DISTANCE = 20  # cm
+RESUME_DISTANCE = 28
+MOTOR_SPEED = 40
+motor_stopped = False
+
 # Initialize motor controllers for left and right motors
-motorL = MotorController(board.D21, board.D16, 19, 26)  # Left motor
-motorR = MotorController(board.D25, board.D24, 13, 6)  # Right motor
+motorL = MotorController(board.D21, board.D16, 19, 26, MOTOR_SPEED)  # Left motor
+motorR = MotorController(board.D25, board.D24, 13, 6, MOTOR_SPEED)  # Right motor
 
 distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D22)
-
-def handle_distance(distance, STOP_DISTANCE, RESUME_DISTANCE):
-    """
-    Handles motor control based on the measured distance.
-    """
-
-    motorL.update_target_rpm(0)
-    motorR.update_target_rpm(0)
-
-    voltage, distance = distanceSensor.read_distance()
-    while distance < RESUME_DISTANCE:
-        current_time = time.time()
-        if current_time - last_time >= 0.5:
-            dt = current_time - last_time
-
-            motorL.update_motor_power(dt)
-            motorR.update_motor_power(dt)
-    
-            voltage, distance = distanceSensor.read_distance()
-            print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
-
-    motorL.update_target_rpm(30)
-    motorR.update_target_rpm(30)
-    
 
 
 while True:
@@ -69,8 +50,6 @@ while True:
     motorL.reset_throttle()
     motorR.reset_throttle()
 
-    STOP_DISTANCE = 20  # cm
-    RESUME_DISTANCE = 28
     
     while True:
         current_time = time.time()
@@ -83,9 +62,19 @@ while True:
             voltage, distance = distanceSensor.read_distance()
             print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
 
-            # Handle distance-based control
-            if distance <= STOP_DISTANCE and distance !=0:
-                handle_distance(distance, STOP_DISTANCE, RESUME_DISTANCE)
+            if distance <= STOP_DISTANCE and not motor_stopped and distance != 0 and motorR.target_rpm != 0:
+                # Stop motors if the object is too close
+                print("Object detected within stop distance, stopping motors.")
+                motorL.update_target_rpm(0)
+                motorR.update_target_rpm(0)
+                motor_stopped = True
+
+            elif distance >= RESUME_DISTANCE and motor_stopped:
+                # Resume motors if object is far enough
+                print("Object far enough, resuming motors.")
+                motorL.update_target_rpm(MOTOR_SPEED)
+                motorR.update_target_rpm(MOTOR_SPEED)
+                motor_stopped = False
             
             last_time = current_time  # Reset control time
 
