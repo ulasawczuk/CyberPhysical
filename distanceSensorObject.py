@@ -51,13 +51,12 @@ class DistanceSensor:
         distance = self.voltage_to_distance(voltage)
         return voltage, distance
 
-    def start_measurement(self, interval=1):
+    def start_measurement(self):
         """Starts continuous measurement at the given time interval (in seconds)."""
         try:
             while True:
                 voltage, distance = self.read_distance()
                 print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
-                time.sleep(interval)
         except KeyboardInterrupt:
             print("Measurement stopped by user")
 
@@ -67,4 +66,4 @@ if __name__ == "__main__":
     sensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D5)
 
     # Start continuous measurement
-    sensor.start_measurement(interval=1)
+    sensor.start_measurement()
