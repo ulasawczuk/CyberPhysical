@@ -36,7 +36,7 @@ class MotorController:
         steps = self.encoder.steps
         rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
         self.encoder.steps = 0  # Reset the steps for the next calculation
-        print(f"Calculated RPM: {rpm:.2f} for {dt:.2f}s")
+        print(f"Encoder Steps: {steps}, Time Delta: {dt:.2f}, Calculated RPM: {rpm:.2f}")
         return rpm
 
     def update_motor_power(self, dt):
