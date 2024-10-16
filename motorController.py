@@ -29,6 +29,7 @@ class MotorController:
         self.pid.output_limits = (-1, 1) 
 
         self.target_rpm = target_rpm
+        self.power = 1000000
 
     def calculate_rpm(self, dt):
         steps_per_rev = 836
@@ -46,13 +47,13 @@ class MotorController:
 
         print(self.target_rpm)
         print(-1*rpm)
-        if -1*rpm >= self.target_rpm - 3 and -1*rpm <= self.target_rpm + 3:
-            power = 0
+        if -1*rpm >= self.target_rpm - 3 and -1*rpm <= self.target_rpm + 3 or self.power == 0:
+            self.power = 0
         else:
-            power = self.pid(rpm)
+            self.power = self.pid(rpm)
 
-        self.motor.throttle = max(-1, min(power + self.motor.throttle, 1))
-        print(f"RPM: {rpm:.2f}, PID Output Power: {power:.2f}, Motor Throttle: {self.motor.throttle:.2f}")
+        self.motor.throttle = max(-1, min(self.power + self.motor.throttle, 1))
+        print(f"RPM: {rpm:.2f}, PID Output Power: {self.power:.2f}, Motor Throttle: {self.motor.throttle:.2f}")
 
     def adjust_pid_constants(self, key):
         if key == 'z':
