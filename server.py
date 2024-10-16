@@ -46,7 +46,7 @@ def handle_distance(distance):
         # Set motors to move backward
         motorL.update_target_rpm(0)
         motorR.update_target_rpm(0)
-    elif distance > RESUME_DISTANCE or distance ==0 :
+    elif distance > RESUME_DISTANCE:
         print(f"Distance {distance:.2f} cm > {RESUME_DISTANCE} cm. Resuming forward motion.")
         # Resume forward motion
         motorL.update_target_rpm(40)
@@ -75,7 +75,7 @@ while True:
             print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
 
             # Handle distance-based control
-            #handle_distance(distance)
+            handle_distance(distance)
 
             last_time = current_time  # Reset control time
 
