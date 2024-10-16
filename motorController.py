@@ -32,12 +32,14 @@ class MotorController:
         steps = self.encoder.steps
         rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
         self.encoder.steps = 0  # Reset the steps for the next calculation
+        print(f"Calculated RPM: {rpm:.2f} for {dt:.2f}s")
         return rpm
 
     def update_motor_power(self, dt):
         rpm = self.calculate_rpm(dt)
         power = self.pid(rpm, dt)
         self.motor.throttle = max(-1, min(power + self.motor.throttle, 1))
+        print(f"RPM: {rpm:.2f}, PID Output Power: {power:.2f}, Motor Throttle: {self.motor.throttle:.2f}")
 
     def adjust_pid_constants(self, key):
         if key == 'z':
