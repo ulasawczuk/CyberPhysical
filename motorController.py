@@ -6,7 +6,7 @@ from simple_pid import PID
 
 class MotorController:
 
-    def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=100):
+    def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=300):
         # Motor setup
         pwm1 = pwmio.PWMOut(pwm1_pin)
         pwm2 = pwmio.PWMOut(pwm2_pin)
@@ -31,7 +31,7 @@ class MotorController:
         self.target_rpm = target_rpm
 
     def calculate_rpm(self, dt):
-        steps_per_rev = 700
+        steps_per_rev = 836
         steps = self.encoder.steps
         rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
         self.encoder.steps = 0  # Reset the steps for the next calculation
