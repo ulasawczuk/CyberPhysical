@@ -2,6 +2,7 @@ import select
 import socket
 import time
 import board
+from distanceSensorObject import DistanceSensor
 from motorController import MotorController
 import pwmio
 from gpiozero import RotaryEncoder
@@ -30,6 +31,9 @@ s.listen(5)
 motorL = MotorController(board.D21, board.D16, 19, 26)  # Left motor
 motorR = MotorController(board.D25, board.D24, 13, 6)  # Right motor
 
+distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D22)
+
+
 while True:
     # Accept a connection
     c, addr = s.accept()
@@ -48,6 +52,7 @@ while True:
 
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
+            distanceSensor.start_measurement(interval=1)
 
             last_time = current_time  # Reset control time
 
