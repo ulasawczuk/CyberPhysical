@@ -33,7 +33,10 @@ class MotorController:
         return rpm
 
     def update_motor_power(self, dt):
-        rpm = self.calculate_rpm(dt)
+        if self.pwm1 == board.D21:
+            rpm = self.calculate_rpm(dt) * -1
+        else:
+            rpm = self.calculate_rpm(dt)
         power = self.pid(rpm, dt)
         self.motor.throttle = max(-1, min(power + self.motor.throttle, 1))
         print(f"RPM: {rpm:.2f}, PID Output Power: {power:.2f}, Motor Throttle: {self.motor.throttle:.2f}")
