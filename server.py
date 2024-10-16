@@ -65,8 +65,8 @@ while True:
             if distance <= STOP_DISTANCE and not motor_stopped and distance != 0 and motorR.target_rpm != 0:
                 # Stop motors if the object is too close
                 print("Object detected within stop distance, stopping motors.")
-                motorL.update_target_rpm(0)
-                motorR.update_target_rpm(0)
+                motorL.update_target_rpm(-motorL.target_rpm)
+                motorR.update_target_rpm(-motorR.target_rpm)
                 motor_stopped = True
 
             elif distance >= RESUME_DISTANCE and motor_stopped:
