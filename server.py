@@ -46,10 +46,8 @@ while True:
         if current_time - last_time >= 0.2:
             dt = current_time - last_time
 
-            if motorL.power != 0:
-                motorL.update_motor_power(dt)
-            if motorR.power != 0:
-                motorR.update_motor_power(dt)
+            motorL.update_motor_power(dt)
+            motorR.update_motor_power(dt)
 
             last_time = current_time  # Reset control time
 
