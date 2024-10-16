@@ -33,7 +33,7 @@ class MotorController:
         return rpm
 
     def update_motor_power(self, dt):
-        if self.pwm1.pin == board.D21:
+        if self.pwm1 == board.D21:
             rpm = self.calculate_rpm(dt) * -1
         else:
             rpm = self.calculate_rpm(dt)
