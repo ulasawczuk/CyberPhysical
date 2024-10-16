@@ -41,7 +41,7 @@ def handle_distance(distance):
     STOP_DISTANCE = 20  # cm
     RESUME_DISTANCE = 28  # cm
 
-    if distance <= STOP_DISTANCE:
+    if distance <= STOP_DISTANCE and distance != 0:
         print(f"Distance {distance:.2f} cm <= {STOP_DISTANCE} cm. Stopping motors.")
         # Set motors to move backward
         motorL.update_target_rpm(-60)
@@ -65,7 +65,7 @@ while True:
     
     while True:
         current_time = time.time()
-        if current_time - last_time >= 0.2:
+        if current_time - last_time >= 0.5:
             dt = current_time - last_time
 
             motorL.update_motor_power(dt)
