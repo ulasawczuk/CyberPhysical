@@ -14,7 +14,7 @@ class MotorController:
         self.motor.decay_mode = motor.SLOW_DECAY
 
         if pwm1_pin == board.D21:
-            self.side = "L"  # Set the side to "L" for left motor
+            self.side = "L" 
         else:
             self.side = "R"
 
@@ -22,7 +22,7 @@ class MotorController:
         self.encoder = RotaryEncoder(enc_a_pin, enc_b_pin, max_steps=0)
 
         # PID constants
-        self.K_P = 0.0002
+        self.K_P = 0.0007
         self.K_I = 0
         self.K_D = 0.0001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
@@ -40,7 +40,7 @@ class MotorController:
 
     def update_motor_power(self, dt):
         if self.side == "L":
-            rpm = self.calculate_rpm(dt) * -1
+            rpm = self.calculate_rpm(dt)*-1
         else:
             rpm = self.calculate_rpm(dt)
         power = self.pid(rpm, dt)
