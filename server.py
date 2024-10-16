@@ -29,11 +29,12 @@ K_I = 0
 K_D = 0.0001
 
 # Target speed in RPM
-target_rpm = 30  # Default target RPM
+target_rpmL = 0  # Default target RPM
+target_rpmR = 0
 
 # Initialize PID controllers for both motors
-pidL = PID(K_P, K_I, K_D, setpoint=target_rpm)
-pidR = PID(K_P, K_I, K_D, setpoint=target_rpm)
+pidL = PID(K_P, K_I, K_D, setpoint=target_rpmL)
+pidR = PID(K_P, K_I, K_D, setpoint=target_rpmR)
 
 # Set output limits for the PID to match the motor throttle range [0, 1]
 pidL.output_limits = (-1, 1)
@@ -129,7 +130,7 @@ while True:
     
     while True:
         current_time = time.time()
-        if current_time - last_time >= 0.5:
+        if current_time - last_time >= 0.2:
 
             dt = current_time - last_time
             calculate_new_power(dt, lprevsteps, rprevsteps)  # Update motor control
@@ -162,17 +163,24 @@ while True:
                 # Different keys control the target speed
                 if key == 'w':
                     print('Moving forward')
-                    target_rpm = 30
+                    target_rpmL = target_rpmL + 10
+                    target_rpmR = target_rpmR + 10
                 elif key == 's':
                     print('Moving backward')
-                    target_rpm = -30
+                    target_rpmL = (-1 * target_rpmL) - 10
+                    target_rpmR = (-1 * target_rpmR) - 10
                 elif key == 'a':  # Turning left
-                    target_rpm = 15
+                    target_rpmL = 30
+                    target_rpmR = 15
                 elif key == 'd':  # Turning right
-                    target_rpm = 15
+                    target_rpmL = 15
+                    target_rpmR = 30
                 elif key == 'q':  # Stop
                     target_rpm = 0
 
+                pidL = PID(K_P, K_I, K_D, setpoint=target_rpmL)
+                pidR = PID(K_P, K_I, K_D, setpoint=target_rpmR)
+                
                 adjust_pid_constants(key)
 
             except ConnectionResetError:
