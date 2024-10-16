@@ -38,16 +38,25 @@ def handle_distance(distance, STOP_DISTANCE, RESUME_DISTANCE):
     Handles motor control based on the measured distance.
     """
 
-    if distance <= STOP_DISTANCE and distance != 0:
-        print(f"Distance {distance:.2f} cm <= {STOP_DISTANCE} cm. Stopping motors.")
-        # Set motors to move backward
-        motorL.update_target_rpm(0)
-        motorR.update_target_rpm(0)
-    elif distance > RESUME_DISTANCE:
-        print(f"Distance {distance:.2f} cm > {RESUME_DISTANCE} cm. Resuming forward motion.")
-        # Resume forward motion
-        motorL.update_target_rpm(40)
-        motorR.update_target_rpm(40)
+    motorL.update_target_rpm(0)
+    motorR.update_target_rpm(0)
+
+    voltage, distance = distanceSensor.read_distance()
+    while distance < RESUME_DISTANCE:
+        current_time = time.time()
+        if current_time - last_time >= 0.5:
+            dt = current_time - last_time
+
+            motorL.update_motor_power(dt)
+            motorR.update_motor_power(dt)
+    
+            voltage, distance = distanceSensor.read_distance()
+            print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
+
+    motorL.update_target_rpm(30)
+    motorR.update_target_rpm(30)
+    
+
 
 while True:
     # Accept a connection
