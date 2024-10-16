@@ -109,14 +109,14 @@ while True:
                     motorL.update_target_rpm(-1*SPEED_INCREMENT)
                     motorR.update_target_rpm(-1*SPEED_INCREMENT)
                 elif key == 'a':  # Turning left
-                    motorL.target_rpm = 300
-                    motorR.target_rpm = 150
+                    motorL.update_target_rpm(-SPEED_INCREMENT)  # Decrease left motor speed
+                    motorR.update_target_rpm(SPEED_INCREMENT)   # Increase right motor speed
                 elif key == 'd':  # Turning right
-                    motorL.target_rpm = 150
-                    motorR.target_rpm = 300
+                    motorL.update_target_rpm(SPEED_INCREMENT)    # Increase left motor speed
+                    motorR.update_target_rpm(-SPEED_INCREMENT)   # Decrease right motor speed
                 elif key == 'q':  # Stop
-                    motorL.target_rpm = 0
-                    motorR.target_rpm = 0
+                    motorL.update_target_rpm(-motorL.target_rpm)  # Bring left motor RPM to 0
+                    motorR.update_target_rpm(-motorR.target_rpm)
 
                 # Adjust PID constants based on key press
                 motorL.adjust_pid_constants(key)
