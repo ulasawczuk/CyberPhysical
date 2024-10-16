@@ -75,7 +75,7 @@ while True:
             print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
 
             # Handle distance-based control
-            handle_distance(distance)
+            #handle_distance(distance)
 
             last_time = current_time  # Reset control time
 
