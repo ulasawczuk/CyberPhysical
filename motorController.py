@@ -24,7 +24,7 @@ class MotorController:
         # PID constants
         self.K_P = 0.01
         self.K_I = 0.001
-        self.K_D = 0.001
+        self.K_D = 0.008
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
         self.pid.output_limits = (-1, 1) 
 
@@ -76,4 +76,5 @@ class MotorController:
 
     def update_target_rpm(self, value):
         self.target_rpm += value
+        self.pid.setpoint = self.target_rpm
         self.power = 1000000
