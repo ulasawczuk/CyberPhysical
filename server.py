@@ -46,7 +46,7 @@ def handle_distance(distance):
         # Set motors to move backward
         motorL.update_target_rpm(-60)
         motorR.update_target_rpm(-60)
-    elif distance > RESUME_DISTANCE:
+    elif distance > RESUME_DISTANCE or distance ==0 :
         print(f"Distance {distance:.2f} cm > {RESUME_DISTANCE} cm. Resuming forward motion.")
         # Resume forward motion
         motorL.update_target_rpm(40)
