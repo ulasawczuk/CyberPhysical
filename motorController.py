@@ -22,9 +22,9 @@ class MotorController:
         self.encoder = RotaryEncoder(enc_a_pin, enc_b_pin, max_steps=0)
 
         # PID constants
-        self.K_P = 0.08
-        self.K_I = 0
-        self.K_D = 0
+        self.K_P = 0.01
+        self.K_I = 0.001
+        self.K_D = 0.001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
         self.pid.output_limits = (-1, 1) 
 
