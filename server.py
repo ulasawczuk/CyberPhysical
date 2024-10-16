@@ -94,6 +94,8 @@ while True:
             except ConnectionResetError:
                 print("Client disconnected abruptly.")
                 break
+
+            print("-------------------------------")
         
     # Close the connection with the client
     c.close()

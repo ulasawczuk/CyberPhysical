@@ -1,6 +1,3 @@
-import select
-import socket
-import time
 import board
 import pwmio
 from gpiozero import RotaryEncoder
