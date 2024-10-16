@@ -50,6 +50,8 @@ while True:
             motorR.update_motor_power(dt)
 
             last_time = current_time  # Reset control time
+
+            print("-------------------------------")
         
         # Use select to check if there's data to read from the client
         ready_to_read, _, _ = select.select([c], [], [], 0.1)  # Wait for 0.1 seconds
@@ -95,7 +97,6 @@ while True:
                 print("Client disconnected abruptly.")
                 break
 
-            print("-------------------------------")
         
     # Close the connection with the client
     c.close()
