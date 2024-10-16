@@ -44,7 +44,7 @@ class MotorController:
         else:
             rpm = self.calculate_rpm(dt)
         power = self.pid(rpm, dt)
-        self.motor.throttle = max(-1, min(power + self.motor.throttle, 1))
+        self.motor.throttle = max(-1, min(self.motor.throttle, 1))
         print(f"RPM: {rpm:.2f}, PID Output Power: {power:.2f}, Motor Throttle: {self.motor.throttle:.2f}")
 
     def adjust_pid_constants(self, key):
