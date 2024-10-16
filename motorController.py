@@ -44,7 +44,7 @@ class MotorController:
         if self.side == "L":
             rpm = -1*rpm
         
-        if self.power == 0.00:
+        if self.power <= 0.001:
             return
         
         self.power = self.pid(rpm, dt)
@@ -52,7 +52,7 @@ class MotorController:
 
         print(self.target_rpm)
         print(f"RPM: {rpm:.2f}, PID Output Power: {self.power:.5f}, Motor Throttle: {self.motor.throttle:.2f}")
-    
+
     def adjust_pid_constants(self, key):
         if key == 'z':
             self.K_P += 0.0001
