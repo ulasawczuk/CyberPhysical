@@ -75,12 +75,12 @@ while True:
 
                 if key == 'w':
                     print('Moving forward')
-                    motorL.target_rpm += SPEED_INCREMENT
-                    motorR.target_rpm += SPEED_INCREMENT
+                    motorL.update_target_rpm(SPEED_INCREMENT)
+                    motorR.update_target_rpm(SPEED_INCREMENT)
                 elif key == 's':
                     print('Moving backward')
-                    motorL.target_rpm = -1*(motorL.target_rpm) - SPEED_INCREMENT
-                    motorR.target_rpm = -1*(motorR.target_rpm) - SPEED_INCREMENT
+                    motorL.update_target_rpm(-1*SPEED_INCREMENT)
+                    motorR.update_target_rpm(-1*SPEED_INCREMENT)
                 elif key == 'a':  # Turning left
                     motorL.target_rpm = 300
                     motorR.target_rpm = 150

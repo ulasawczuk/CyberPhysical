@@ -74,3 +74,8 @@ class MotorController:
 
     def reset_throttle(self):
         self.motor.throttle = 0
+
+
+    def update_target_rpm(self, value):
+        self.target_rpm += value
+        self.power = 100000
