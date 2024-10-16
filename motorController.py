@@ -44,6 +44,7 @@ class MotorController:
         self.pid.setpoint = self.target_rpm
         #power = self.pid(rpm)
 
+        print(self.target_rpm)
         if -1*rpm >= self.target_rpm + 2 and -1*rpm <= self.target_rpm - 2:
             power = 0
         else:
