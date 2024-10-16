@@ -41,8 +41,10 @@ class MotorController:
 
     def update_motor_power(self, dt):
         rpm = self.calculate_rpm(dt)
+        if self.side == "L":
+            rpm = -1*rpm
         
-        if self.power == 0.0:
+        if self.power == 0.00:
             return
         
         self.power = self.pid(rpm, dt)
