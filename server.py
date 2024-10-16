@@ -28,7 +28,7 @@ s.listen(5)
 
 # Initialize motor controllers for left and right motors
 motorL = MotorController(board.D21, board.D16, 13, 6)  # Left motor
-motorR = MotorController(board.D25, board.D24, 19, 26)  # Right motor
+motorR = MotorController(board.D1, board.D24, 19, 26)  # Right motor
 
 while True:
     # Accept a connection
