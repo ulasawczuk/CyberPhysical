@@ -22,7 +22,7 @@ class MotorController:
         self.encoder = RotaryEncoder(enc_a_pin, enc_b_pin, max_steps=0)
 
         # PID constants
-        self.K_P = 0.001
+        self.K_P = 0.0007
         self.K_I = 0.0001
         self.K_D = 0.0001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
@@ -44,7 +44,9 @@ class MotorController:
         
         self.power = self.pid(rpm, dt)
 
-        self.motor.throttle = max(-1, min(self.power + self.motor.throttle, 1))
+        if self.power != 0:
+            self.motor.throttle = max(-1, min(self.power + self.motor.throttle, 1))
+
         print(f"RPM: {rpm:.2f}, PID Output Power: {self.power:.2f}, Motor Throttle: {self.motor.throttle:.2f}")
 
     def adjust_pid_constants(self, key):
