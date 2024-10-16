@@ -6,7 +6,7 @@ from simple_pid import PID
 
 class MotorController:
 
-    def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=40):
+    def __init__(self, pwm1_pin, pwm2_pin, enc_a_pin, enc_b_pin, target_rpm=100):
         # Motor setup
         pwm1 = pwmio.PWMOut(pwm1_pin)
         pwm2 = pwmio.PWMOut(pwm2_pin)
