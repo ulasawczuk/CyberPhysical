@@ -44,7 +44,7 @@ class MotorController:
         if self.side == "L":
             rpm = -1*rpm
         
-        if self.power <= 0.0005:
+        if self.power <= 0.0001:
             return
         
         self.power = self.pid(rpm, dt)
