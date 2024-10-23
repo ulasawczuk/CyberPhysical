@@ -125,7 +125,7 @@ while True:
                 elif current_color == "Blue" and not turning_left:
                     print("Blue tape detected, turning left.")
                     motorL.update_target_rpm(0)  # Move left motor backward (turning left)
-                    motorR.update_target_rpm(MOTOR_SPEED-5)   # Move right motor forward
+                    motorR.update_target_rpm(MOTOR_SPEED-8)   # Move right motor forward
                     turning_left = True   # Set turning left flag
                     turning_right = False # Reset right turn flag if any
 
