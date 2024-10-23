@@ -11,7 +11,7 @@ class ColorSensor:
 
     def classify_color(self, r, g, b):
         # Classify the color based on the RGB values
-        if r > 80 and r > g + b:
+        if r > 80 and r < 200 and r > g + b:
             return "Red"
         elif g > 20 and g > r + b:
             return "Green"
