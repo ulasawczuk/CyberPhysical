@@ -105,15 +105,13 @@ while True:
                 print(f"red: {r}, green: {g}, blue: {b}")  
                 print(f"Color: "+ color)
 
-                if last_color == color:
-                    motorL.update_target_rpm(MOTOR_SPEED)
-                    motorR.update_target_rpm(MOTOR_SPEED)
-                else:
+                if last_color != color:
                     motorL.update_target_rpm(-motorL.target_rpm)
                     motorR.update_target_rpm(-motorL.target_rpm)
                     while motorL.gotToTarget == False and motorR.gotToTarget == False:
                         motorL.update_target_rpm(-motorL.target_rpm)
                         motorR.update_target_rpm(-motorL.target_rpm)
+            
 
                 
             last_time = current_time  # Reset control time
