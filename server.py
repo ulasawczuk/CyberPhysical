@@ -91,7 +91,7 @@ while True:
 
             # HANDLING COLOR
 
-            r, g, b = colorSensor.color_rgb_bytes
+            r, g, b = colorSensor.get_rgb()
             color = colorSensor.classify_color(r, g, b)
             print(f"Color: " + color)
             
