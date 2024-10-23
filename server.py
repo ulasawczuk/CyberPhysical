@@ -81,8 +81,8 @@ while True:
                 if distance <= STOP_DISTANCE and not motor_stopped and distance != 0 and motorR.target_rpm != 0:
                     # Stop motors if the object is too close
                     print("Object detected within stop distance, stopping motors.")
-                    motorL.update_target_rpm(-motorL.target_rpm-20)
-                    motorR.update_target_rpm(-motorR.target_rpm-20)
+                    motorL.update_target_rpm(-20)
+                    motorR.update_target_rpm(-20)
                     motor_stopped = True
 
                 elif distance >= RESUME_DISTANCE and distance <= RESUME_DISTANCE + 3 and motor_stopped:
@@ -107,8 +107,8 @@ while True:
                 print(f"Color: "+ color)
 
                 if last_color != color and not colorsDiffer:
-                    motorL.update_target_rpm(-motorL.target_rpm)
-                    motorR.update_target_rpm(-motorL.target_rpm) 
+                    motorL.update_target_rpm(0)
+                    motorR.update_target_rpm(0) 
                     colorsDiffer = True
 
                 
