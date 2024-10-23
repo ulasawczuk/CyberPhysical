@@ -45,6 +45,8 @@ i2c = busio.I2C(board.SCL, board.SDA)
 colorSensor = ColorSensor(i2c)
 followLine = True
 colorsDiffer = False
+turning_left = False
+turning_right = False
 
 
 while True:
@@ -58,10 +60,7 @@ while True:
     motorL.reset_throttle()
     motorR.reset_throttle()
 
-    r, g, b = colorSensor.get_rgb()
-    last_color = colorSensor.classify_color(r, g, b)
-    print(f"red: {r}, green: {g}, blue: {b}")  
-    print(f"Color: "+ last_color)
+    correct_color = "Black"
 
     
     while True:
@@ -102,14 +101,36 @@ while True:
             if followLine:
 
                 r, g, b = colorSensor.get_rgb()
-                color = colorSensor.classify_color(r, g, b)
+                current_color = colorSensor.classify_color(r, g, b)
                 print(f"red: {r}, green: {g}, blue: {b}")  
-                print(f"Color: "+ color)
+                print(f"Color: "+ current_color)
 
-                if last_color != color and not colorsDiffer:
-                    motorL.update_target_rpm(0)
-                    motorR.update_target_rpm(0) 
-                    colorsDiffer = True
+                if current_color == "Black" and (turning_left or turning_right):
+                    # Stop turning, resume forward motion
+                    motorL.update_target_rpm(MOTOR_SPEED)
+                    motorR.update_target_rpm(MOTOR_SPEED)
+                    turning_left = False
+                    turning_right = False
+                    print("Back on black tape, moving straight.")
+
+                # If red is detected, turn right to find black
+                elif current_color == "Red" and not turning_right:
+                    print("Red tape detected, turning right.")
+                    motorL.update_target_rpm(MOTOR_SPEED)   # Move left motor forward
+                    motorR.update_target_rpm(-MOTOR_SPEED)  # Move right motor backward (turning right)
+                    turning_right = True  # Set turning right flag
+                    turning_left = False  # Reset left turn flag if any
+
+                # If blue is detected, turn left to find black
+                elif current_color == "Blue" and not turning_left:
+                    print("Blue tape detected, turning left.")
+                    motorL.update_target_rpm(-MOTOR_SPEED)  # Move left motor backward (turning left)
+                    motorR.update_target_rpm(MOTOR_SPEED)   # Move right motor forward
+                    turning_left = True   # Set turning left flag
+                    turning_right = False # Reset right turn flag if any
+
+                
+                    
 
                 
             last_time = current_time  # Reset control time
