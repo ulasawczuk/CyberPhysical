@@ -93,8 +93,8 @@ while True:
 
             r, g, b = colorSensor.get_rgb()
             color = colorSensor.classify_color(r, g, b)
-            print(f"red " +r+ " green " +g+ " blue " + b)  
-            print(f"Color: " + color)
+            print(f"red " +{r}+ " green " +{g}+ " blue " + {b})  
+            print(f"Color: "+ color)
             
             last_time = current_time  # Reset control time
 
