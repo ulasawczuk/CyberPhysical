@@ -42,7 +42,7 @@ distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_p
 
 i2c = busio.I2C(board.SCL, board.SDA)
 colorSensor = ColorSensor(i2c)
-followLine = False
+followLine = True
 
 
 while True:
