@@ -61,6 +61,7 @@ while True:
     motorR.reset_throttle()
 
     correct_color = "Black"
+    found = False
 
     
     while True:
@@ -107,16 +108,26 @@ while True:
 
                 if current_color == "Black" and (turning_left or turning_right):
                     # Stop turning, resume forward motion
-                    motorL.update_target_rpm(MOTOR_SPEED)
-                    motorR.update_target_rpm(MOTOR_SPEED)
+                    if turning_left:
+                        motorL.update_target_rpm(MOTOR_SPEED)
+                        motorR.update_target_rpm(MOTOR_SPEED-3)
+                    if turning_right:
+                        motorL.update_target_rpm(MOTOR_SPEED-3)
+                        motorR.update_target_rpm(MOTOR_SPEED)
                     turning_left = False
                     turning_right = False
+                    found = True
                     print("Back on black tape, moving straight.")
+
+                elif current_color == "Black" and not turning_left and not turning_right and found:
+                    motorL.update_target_rpm(MOTOR_SPEED)
+                    motorR.update_target_rpm(MOTOR_SPEED)
+                    found = False
 
                 # If red is detected, turn right to find black
                 elif current_color == "Red" and not turning_right:
                     print("Red tape detected, turning right.")
-                    motorL.update_target_rpm(MOTOR_SPEED-5)   # Move left motor forward
+                    motorL.update_target_rpm(MOTOR_SPEED-8)   # Move left motor forward
                     motorR.update_target_rpm(0)  # Move right motor backward (turning right)
                     turning_right = True  # Set turning right flag
                     turning_left = False  # Reset left turn flag if any
