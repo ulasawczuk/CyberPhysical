@@ -77,7 +77,11 @@ class MotorController:
 
 
     def update_target_rpm(self, value):
-        self.target_rpm += value
+        if value == 0:
+            self.target_rpm = 0
+        else:
+            self.target_rpm += value
+            
         self.pid.setpoint = self.target_rpm
         self.gotToTarget = False
         self.power = 1000000
