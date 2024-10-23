@@ -66,7 +66,7 @@ while True:
     
     while True:
         current_time = time.time()
-        if current_time - last_time >= 0.5:
+        if current_time - last_time >= 0.2:
             dt = current_time - last_time
 
             motorL.update_motor_power(dt)
@@ -117,12 +117,13 @@ while True:
                     turning_left = False
                     turning_right = False
                     found = True
-                    print("Back on black tape, moving straight.")
+                    print("Back on black tape, turning a bit.")
 
                 elif current_color == "Black" and not turning_left and not turning_right and found:
                     motorL.update_target_rpm(MOTOR_SPEED)
                     motorR.update_target_rpm(MOTOR_SPEED)
                     found = False
+                    print("Back on black tape, moving straight.")
 
                 # If red is detected, turn right to find black
                 elif current_color == "Red" and not turning_right:
