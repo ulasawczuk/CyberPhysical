@@ -31,7 +31,7 @@ s.listen(5)
 
 STOP_DISTANCE = 20  # cm
 RESUME_DISTANCE = 28
-MOTOR_SPEED = 0
+MOTOR_SPEED = 20
 motor_stopped = False
 
 # Initialize motor controllers for left and right motors
@@ -41,8 +41,8 @@ motorR = MotorController(board.D25, board.D24, 13, 6, MOTOR_SPEED)  # Right moto
 distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D22)
 
 i2c = busio.I2C(board.SCL, board.SDA)
-
 colorSensor = ColorSensor(i2c)
+followLine = True
 
 
 while True:
@@ -55,6 +55,11 @@ while True:
 
     motorL.reset_throttle()
     motorR.reset_throttle()
+
+    r, g, b = colorSensor.get_rgb()
+    last_color = colorSensor.classify_color(r, g, b)
+    print(f"red: {r}, green: {g}, blue: {b}")  
+    print(f"Color: "+ last_color)
 
     
     while True:
@@ -91,11 +96,21 @@ while True:
 
             # HANDLING COLOR
 
-            r, g, b = colorSensor.get_rgb()
-            color = colorSensor.classify_color(r, g, b)
-            print(f"red: {r}, green: {g}, blue: {b}")  
-            print(f"Color: "+ color)
-            
+            if followLine:
+
+                r, g, b = colorSensor.get_rgb()
+                color = colorSensor.classify_color(r, g, b)
+                print(f"red: {r}, green: {g}, blue: {b}")  
+                print(f"Color: "+ color)
+
+                if last_color == color:
+                    motorL.update_target_rpm(MOTOR_SPEED)
+                    motorR.update_target_rpm(MOTOR_SPEED)
+                else:
+                    motorL.update_target_rpm(-motorL.target_rpm)
+                    motorR.update_target_rpm(-motorL.target_rpm)
+
+                
             last_time = current_time  # Reset control time
 
             print("-------------------------------")
