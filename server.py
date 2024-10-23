@@ -129,8 +129,6 @@ while True:
                     turning_left = True   # Set turning left flag
                     turning_right = False # Reset right turn flag if any
 
-                
-                    
 
                 
             last_time = current_time  # Reset control time
