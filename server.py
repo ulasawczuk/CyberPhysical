@@ -1,9 +1,11 @@
 import select
 import socket
 import time
+import busio
 import board
 from distanceSensorObject import DistanceSensor
 from motorController import MotorController
+from colorSensor import ColorSensor
 import pwmio
 from gpiozero import RotaryEncoder
 from adafruit_motor import motor
@@ -29,7 +31,7 @@ s.listen(5)
 
 STOP_DISTANCE = 20  # cm
 RESUME_DISTANCE = 28
-MOTOR_SPEED = 40
+MOTOR_SPEED = 0
 motor_stopped = False
 
 # Initialize motor controllers for left and right motors
@@ -37,6 +39,10 @@ motorL = MotorController(board.D21, board.D16, 19, 26, MOTOR_SPEED)  # Left moto
 motorR = MotorController(board.D25, board.D24, 13, 6, MOTOR_SPEED)  # Right motor
 
 distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D22)
+
+i2c = busio.I2C(board.SCL, board.SDA)
+
+colorSensor = ColorSensor(i2c)
 
 
 while True:
@@ -59,22 +65,35 @@ while True:
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
 
+            # HANDLING DISTANCE
+
             voltage, distance = distanceSensor.read_distance()
             print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
 
             if distance <= STOP_DISTANCE and not motor_stopped and distance != 0 and motorR.target_rpm != 0:
                 # Stop motors if the object is too close
                 print("Object detected within stop distance, stopping motors.")
-                motorL.update_target_rpm(-motorL.target_rpm)
-                motorR.update_target_rpm(-motorR.target_rpm)
+                motorL.update_target_rpm(-motorL.target_rpm-20)
+                motorR.update_target_rpm(-motorR.target_rpm-20)
                 motor_stopped = True
 
-            elif distance >= RESUME_DISTANCE and motor_stopped:
+            elif distance >= RESUME_DISTANCE and distance <= RESUME_DISTANCE + 3 and motor_stopped:
+                print("Object far enough, turning.")
+                motorL.update_target_rpm(MOTOR_SPEED)
+                motorR.update_target_rpm(MOTOR_SPEED/2)
+
+            elif distance >= RESUME_DISTANCE + 3 and motor_stopped or distance == 0 and motor_stopped:
                 # Resume motors if object is far enough
                 print("Object far enough, resuming motors.")
                 motorL.update_target_rpm(MOTOR_SPEED)
                 motorR.update_target_rpm(MOTOR_SPEED)
                 motor_stopped = False
+
+            # HANDLING COLOR
+
+            r, g, b = colorSensor.color_rgb_bytes
+            color = colorSensor.classify_color(r, g, b)
+            print(f"Color: " + color)
             
             last_time = current_time  # Reset control time
 
@@ -120,7 +139,7 @@ while True:
 
                 # Adjust PID constants based on key press
                 motorL.adjust_pid_constants(key)
-                motorR.adjust_pid_constants(key)
+                motorR.adjust_pid_constants(key) 
 
             except ConnectionResetError:
                 print("Client disconnected abruptly.")
