@@ -110,9 +110,9 @@ while True:
                     # Stop turning, resume forward motion
                     if turning_left:
                         motorL.update_target_rpm(MOTOR_SPEED)
-                        motorR.update_target_rpm(MOTOR_SPEED-3)
+                        motorR.update_target_rpm(MOTOR_SPEED-5)
                     if turning_right:
-                        motorL.update_target_rpm(MOTOR_SPEED-3)
+                        motorL.update_target_rpm(MOTOR_SPEED-5)
                         motorR.update_target_rpm(MOTOR_SPEED)
                     turning_left = False
                     turning_right = False
