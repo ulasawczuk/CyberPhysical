@@ -19,7 +19,7 @@ class ColorSensor:
             return "Blue"
         elif r > 10 and g > 10 and b < 10:
             return "Yellow"
-        elif r > 20 and g < 10 and b < 5:
+        elif r > 20 and r < 200 and g < 10 and b < 5:
             return "White"
         elif r > 200 and g < 5 and b < 5:
             return "Black"
