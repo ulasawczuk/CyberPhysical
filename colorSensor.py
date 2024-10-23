@@ -11,17 +11,17 @@ class ColorSensor:
 
     def classify_color(self, r, g, b):
         # Classify the color based on the RGB values
-        if r < 5 and g < 5 and b < 5:
-            return "Black"
-        elif r > 15 and r > g + b:
+        if r > 80 and r > g + b:
             return "Red"
-        elif g > 15 and g > r + b:
+        elif g > 20 and g > r + b:
             return "Green"
-        elif b > 15 and b > r + g:
+        elif b > 20 and b + 20 > r + g:
             return "Blue"
         elif r > 10 and g > 10 and b < 10:
             return "Yellow"
-        elif r > 20 and g > 20 and b > 20:
+        elif r > 20 and g < 10 and b < 5:
             return "White"
+        elif r > 200 and g < 5 and b < 5:
+            return "Black"
         else:
             return "Unknown"
