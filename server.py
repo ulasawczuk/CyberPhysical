@@ -44,6 +44,7 @@ controlDistance = False
 i2c = busio.I2C(board.SCL, board.SDA)
 colorSensor = ColorSensor(i2c)
 followLine = True
+colorsDiffer = False
 
 
 while True:
@@ -105,13 +106,10 @@ while True:
                 print(f"red: {r}, green: {g}, blue: {b}")  
                 print(f"Color: "+ color)
 
-                if last_color != color:
+                if last_color != color and not colorsDiffer:
                     motorL.update_target_rpm(-motorL.target_rpm)
-                    motorR.update_target_rpm(-motorL.target_rpm)
-                    while motorL.gotToTarget == False and motorR.gotToTarget == False:
-                        motorL.update_target_rpm(-motorL.target_rpm)
-                        motorR.update_target_rpm(-motorL.target_rpm)
-            
+                    motorR.update_target_rpm(-motorL.target_rpm) 
+                    colorsDiffer = True
 
                 
             last_time = current_time  # Reset control time
