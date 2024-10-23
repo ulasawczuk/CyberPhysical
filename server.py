@@ -116,7 +116,7 @@ while True:
                 # If red is detected, turn right to find black
                 elif current_color == "Red" and not turning_right:
                     print("Red tape detected, turning right.")
-                    motorL.update_target_rpm(MOTOR_SPEED/2)   # Move left motor forward
+                    motorL.update_target_rpm(MOTOR_SPEED-5)   # Move left motor forward
                     motorR.update_target_rpm(0)  # Move right motor backward (turning right)
                     turning_right = True  # Set turning right flag
                     turning_left = False  # Reset left turn flag if any
@@ -125,7 +125,7 @@ while True:
                 elif current_color == "Blue" and not turning_left:
                     print("Blue tape detected, turning left.")
                     motorL.update_target_rpm(0)  # Move left motor backward (turning left)
-                    motorR.update_target_rpm(MOTOR_SPEED/2)   # Move right motor forward
+                    motorR.update_target_rpm(MOTOR_SPEED-5)   # Move right motor forward
                     turning_left = True   # Set turning left flag
                     turning_right = False # Reset right turn flag if any
 
