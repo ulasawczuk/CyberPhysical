@@ -39,10 +39,11 @@ motorL = MotorController(board.D21, board.D16, 19, 26, MOTOR_SPEED)  # Left moto
 motorR = MotorController(board.D25, board.D24, 13, 6, MOTOR_SPEED)  # Right motor
 
 distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D22)
+controlDistance = False
 
 i2c = busio.I2C(board.SCL, board.SDA)
 colorSensor = ColorSensor(i2c)
-followLine = False
+followLine = True
 
 
 while True:
@@ -72,27 +73,28 @@ while True:
 
             # HANDLING DISTANCE
 
-            voltage, distance = distanceSensor.read_distance()
-            print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
+            if controlDistance:
+                voltage, distance = distanceSensor.read_distance()
+                print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
 
-            if distance <= STOP_DISTANCE and not motor_stopped and distance != 0 and motorR.target_rpm != 0:
-                # Stop motors if the object is too close
-                print("Object detected within stop distance, stopping motors.")
-                motorL.update_target_rpm(-motorL.target_rpm-20)
-                motorR.update_target_rpm(-motorR.target_rpm-20)
-                motor_stopped = True
+                if distance <= STOP_DISTANCE and not motor_stopped and distance != 0 and motorR.target_rpm != 0:
+                    # Stop motors if the object is too close
+                    print("Object detected within stop distance, stopping motors.")
+                    motorL.update_target_rpm(-motorL.target_rpm-20)
+                    motorR.update_target_rpm(-motorR.target_rpm-20)
+                    motor_stopped = True
 
-            elif distance >= RESUME_DISTANCE and distance <= RESUME_DISTANCE + 3 and motor_stopped:
-                print("Object far enough, turning.")
-                motorL.update_target_rpm(MOTOR_SPEED)
-                motorR.update_target_rpm(MOTOR_SPEED/2)
+                elif distance >= RESUME_DISTANCE and distance <= RESUME_DISTANCE + 3 and motor_stopped:
+                    print("Object far enough, turning.")
+                    motorL.update_target_rpm(MOTOR_SPEED)
+                    motorR.update_target_rpm(MOTOR_SPEED/2)
 
-            elif distance >= RESUME_DISTANCE + 3 and motor_stopped or distance == 0 and motor_stopped:
-                # Resume motors if object is far enough
-                print("Object far enough, resuming motors.")
-                motorL.update_target_rpm(MOTOR_SPEED)
-                motorR.update_target_rpm(MOTOR_SPEED)
-                motor_stopped = False
+                elif distance >= RESUME_DISTANCE + 3 and motor_stopped or distance == 0 and motor_stopped:
+                    # Resume motors if object is far enough
+                    print("Object far enough, resuming motors.")
+                    motorL.update_target_rpm(MOTOR_SPEED)
+                    motorR.update_target_rpm(MOTOR_SPEED)
+                    motor_stopped = False
 
             # HANDLING COLOR
 
