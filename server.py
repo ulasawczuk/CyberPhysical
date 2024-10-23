@@ -109,6 +109,9 @@ while True:
                 else:
                     motorL.update_target_rpm(-motorL.target_rpm)
                     motorR.update_target_rpm(-motorL.target_rpm)
+                    while motorL.gotToTarget == False and motorR.gotToTarget == False:
+                        motorL.update_target_rpm(-motorL.target_rpm)
+                        motorR.update_target_rpm(-motorL.target_rpm)
 
                 
             last_time = current_time  # Reset control time

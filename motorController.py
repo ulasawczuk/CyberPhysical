@@ -22,7 +22,7 @@ class MotorController:
         self.encoder = RotaryEncoder(enc_a_pin, enc_b_pin, max_steps=0)
 
         # PID constants
-        self.K_P = 0.004
+        self.K_P = 0.002
         self.K_I = 0.00001
         self.K_D = 0.00001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
@@ -30,6 +30,7 @@ class MotorController:
 
         self.target_rpm = target_rpm
         self.power = 1000000
+        self.gotToTarget = False
 
     def calculate_rpm(self, dt):
         steps_per_rev = 836
@@ -45,6 +46,7 @@ class MotorController:
             rpm = -1*rpm
         
         if self.power <= 0.0001 and self.power >= -0.0001:
+            self.gotToTarget = True
             return
         
         self.power = self.pid(rpm, dt)
@@ -77,4 +79,5 @@ class MotorController:
     def update_target_rpm(self, value):
         self.target_rpm += value
         self.pid.setpoint = self.target_rpm
+        self.gotToTarget = False
         self.power = 1000000
