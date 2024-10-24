@@ -32,6 +32,7 @@ s.listen(5)
 STOP_DISTANCE = 20  # cm
 RESUME_DISTANCE = 28
 MOTOR_SPEED = 10
+VALUE = MOTOR_SPEED
 motor_stopped = False
 
 # Initialize motor controllers for left and right motors
@@ -84,18 +85,20 @@ while True:
                     motorL.update_target_rpm(-20)
                     motorR.update_target_rpm(-20)
                     motor_stopped = True
+                    followLine = False
 
                 elif distance >= RESUME_DISTANCE and distance <= RESUME_DISTANCE + 3 and motor_stopped:
                     print("Object far enough, turning.")
                     motorL.update_target_rpm(MOTOR_SPEED)
-                    motorR.update_target_rpm(MOTOR_SPEED/2)
+                    motorR.update_target_rpm(5)
 
                 elif distance >= RESUME_DISTANCE + 3 and motor_stopped or distance == 0 and motor_stopped:
                     # Resume motors if object is far enough
-                    print("Object far enough, resuming motors.")
+                    print("Object far enough or avoided, resuming motors.")
                     motorL.update_target_rpm(MOTOR_SPEED)
                     motorR.update_target_rpm(MOTOR_SPEED)
                     motor_stopped = False
+                    followLine = True
 
             # HANDLING COLOR
 
@@ -110,9 +113,9 @@ while True:
                     # Stop turning, resume forward motion
                     if turning_left:
                         motorL.update_target_rpm(MOTOR_SPEED)
-                        motorR.update_target_rpm(MOTOR_SPEED-5)
+                        motorR.update_target_rpm(5)
                     if turning_right:
-                        motorL.update_target_rpm(MOTOR_SPEED-5)
+                        motorL.update_target_rpm(5)
                         motorR.update_target_rpm(MOTOR_SPEED)
                     turning_left = False
                     turning_right = False
@@ -128,22 +131,22 @@ while True:
                 # If red is detected, turn right to find black
                 elif current_color == "Red" and not turning_right:
                     print("Red tape detected, turning right.")
-                    motorL.update_target_rpm(MOTOR_SPEED-8)   # Move left motor forward
-                    motorR.update_target_rpm(0)  # Move right motor backward (turning right)
-                    turning_right = True  # Set turning right flag
-                    turning_left = False  # Reset left turn flag if any
+                    motorL.update_target_rpm(2)  
+                    motorR.update_target_rpm(0) 
+                    turning_right = True  
+                    turning_left = False 
 
                 # If blue is detected, turn left to find black
                 elif current_color == "Blue" and not turning_left:
                     print("Blue tape detected, turning left.")
-                    motorL.update_target_rpm(0)  # Move left motor backward (turning left)
-                    motorR.update_target_rpm(MOTOR_SPEED-8)   # Move right motor forward
-                    turning_left = True   # Set turning left flag
-                    turning_right = False # Reset right turn flag if any
+                    motorL.update_target_rpm(0) 
+                    motorR.update_target_rpm(2)  
+                    turning_left = True  
+                    turning_right = False 
 
 
                 
-            last_time = current_time  # Reset control time
+            last_time = current_time 
 
             print("-------------------------------")
         
@@ -166,24 +169,25 @@ while True:
 
                 # Different keys control the target speed
                 SPEED_INCREMENT = 5 
+                VALUE = VALUE + SPEED_INCREMENT
 
                 if key == 'w':
                     print('Moving forward')
-                    motorL.update_target_rpm(SPEED_INCREMENT)
-                    motorR.update_target_rpm(SPEED_INCREMENT)
+                    motorL.update_target_rpm(VALUE)
+                    motorR.update_target_rpm(VALUE)
                 elif key == 's':
                     print('Moving backward')
-                    motorL.update_target_rpm(-1*SPEED_INCREMENT)
-                    motorR.update_target_rpm(-1*SPEED_INCREMENT)
+                    motorL.update_target_rpm(-1*VALUE)
+                    motorR.update_target_rpm(-1*VALUE)
                 elif key == 'a':  # Turning left
-                    motorL.update_target_rpm(-SPEED_INCREMENT)  # Decrease left motor speed
-                    motorR.update_target_rpm(SPEED_INCREMENT)   # Increase right motor speed
+                    motorL.update_target_rpm(-VALUE)  # Decrease left motor speed
+                    motorR.update_target_rpm(VALUE)   # Increase right motor speed
                 elif key == 'd':  # Turning right
-                    motorL.update_target_rpm(SPEED_INCREMENT)    # Increase left motor speed
-                    motorR.update_target_rpm(-SPEED_INCREMENT)   # Decrease right motor speed
+                    motorL.update_target_rpm(VALUE)    # Increase left motor speed
+                    motorR.update_target_rpm(-VALUE)   # Decrease right motor speed
                 elif key == 'q':  # Stop
-                    motorL.update_target_rpm(-motorL.target_rpm)  # Bring left motor RPM to 0
-                    motorR.update_target_rpm(-motorR.target_rpm)
+                    motorL.update_target_rpm(0)  # Bring left motor RPM to 0
+                    motorR.update_target_rpm(0)
 
                 # Adjust PID constants based on key press
                 motorL.adjust_pid_constants(key)

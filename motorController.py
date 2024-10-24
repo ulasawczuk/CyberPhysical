@@ -24,7 +24,7 @@ class MotorController:
         # PID constants
         self.K_P = 0.004
         self.K_I = 0.0001
-        self.K_D = 0.0001
+        self.K_D = 0.00001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
         self.pid.output_limits = (-1, 1) 
 
@@ -37,7 +37,7 @@ class MotorController:
         steps = self.encoder.steps
         rpm = (steps / steps_per_rev) * (60 / dt)  # Convert steps per second to RPM
         self.encoder.steps = 0  # Reset the steps for the next calculation
-        print(f"Encoder Steps: {steps}, Time Delta: {dt:.2f}, Calculated RPM: {rpm:.2f}")
+        # print(f"Encoder Steps: {steps}, Time Delta: {dt:.2f}, Calculated RPM: {rpm:.2f}")
         return rpm
 
     def update_motor_power(self, dt):
@@ -52,7 +52,8 @@ class MotorController:
         self.power = self.pid(rpm, dt)
         self.motor.throttle = max(-1, min(self.power + self.motor.throttle, 1))
 
-        print(self.target_rpm)
+        print("Wheel: " + self.side)
+        print("Target rpm: "+ self.target_rpm)
         print(f"RPM: {rpm:.2f}, PID Output Power: {self.power:.5f}, Motor Throttle: {self.motor.throttle:.2f}")
 
     def adjust_pid_constants(self, key):
@@ -80,7 +81,7 @@ class MotorController:
         if value == 0:
             self.target_rpm = 0
         else:
-            self.target_rpm += value
+            self.target_rpm = value
 
         self.pid.setpoint = self.target_rpm
         self.gotToTarget = False
