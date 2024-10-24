@@ -100,6 +100,7 @@ while True:
                     motor_stopped = False
                     followLine = True
 
+
             # HANDLING COLOR
 
             if followLine:
