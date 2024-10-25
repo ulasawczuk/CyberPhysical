@@ -73,7 +73,7 @@ while True:
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
 
-            # HANDLING DISTANCE
+            # HANDLING DISTANCEs
 
             if controlDistance:
                 voltage, distance = distanceSensor.read_distance()
