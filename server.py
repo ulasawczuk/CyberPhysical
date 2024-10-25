@@ -117,6 +117,7 @@ while True:
 
             if followLine:
                 
+                # Sampling color every half second to avoid i2c error
                 if halfSecond >= 0.48 and halfSecond <= 0.53:
                     try:
                         r, g, b = colorSensor.get_rgb()
@@ -151,7 +152,7 @@ while True:
                 # If red is detected, turn right to find black
                 elif current_color == "Red" and not turning_right:
                     print("Red tape detected, turning right.")
-                    motorL.update_target_rpm(12)  
+                    motorL.update_target_rpm(MOTOR_SPEED)  
                     motorR.update_target_rpm(6) 
                     turning_right = True  
                     turning_left = False 
@@ -160,7 +161,7 @@ while True:
                 elif current_color == "Blue" and not turning_left:
                     print("Blue tape detected, turning left.")
                     motorL.update_target_rpm(6) 
-                    motorR.update_target_rpm(12)  
+                    motorR.update_target_rpm(MOTOR_SPEED)  
                     turning_left = True  
                     turning_right = False 
 
