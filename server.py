@@ -67,7 +67,7 @@ while True:
     
     while True:
         current_time = time.time()
-        if current_time - last_time >= 0.2:
+        if current_time - last_time >= 0.1:
             dt = current_time - last_time
 
             motorL.update_motor_power(dt)
