@@ -80,6 +80,7 @@ while True:
         if current_time - last_time >= 0.1:
             dt = current_time - last_time
             halfSecond += dt
+            print(halfSecond)
 
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
@@ -117,7 +118,6 @@ while True:
             if followLine:
                 
                 if halfSecond == 0.5:
-                    print("ELELELELELE")
                     try:
                         r, g, b = colorSensor.get_rgb()
                     except OSError as e:
