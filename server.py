@@ -64,11 +64,13 @@ while True:
     correct_color = "Black"
     found = False
 
+    halfSecond = 0
     
     while True:
         current_time = time.time()
         if current_time - last_time >= 0.1:
             dt = current_time - last_time
+            halfSecond += dt
 
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
@@ -104,16 +106,18 @@ while True:
             # HANDLING COLOR
 
             if followLine:
-
-                try:
-                    r, g, b = colorSensor.get_rgb()
-                except OSError as e:
-                    print("I2C error, retrying in 0.1 seconds:", e)
-                    time.sleep(0.1)  # Small delay before retrying
-                    continue
-                current_color = colorSensor.classify_color(r, g, b)
-                print(f"red: {r}, green: {g}, blue: {b}")  
-                print(f"Color: "+ current_color)
+                
+                if halfSecond == 0.5:
+                    try:
+                        r, g, b = colorSensor.get_rgb()
+                    except OSError as e:
+                        print("I2C error, retrying in 0.1 seconds:", e)
+                        time.sleep(0.1)  # Small delay before retrying
+                        continue
+                    current_color = colorSensor.classify_color(r, g, b)
+                    print(f"red: {r}, green: {g}, blue: {b}")  
+                    print(f"Color: "+ current_color)
+                    halfSecond = 0
 
                 if current_color == "Black" and (turning_left or turning_right):
                     # Stop turning, resume forward motion
