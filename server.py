@@ -117,7 +117,7 @@ while True:
 
             if followLine:
                 
-                if halfSecond == 0.5:
+                if halfSecond >= 0.48 and halfSecond <= 0.53:
                     try:
                         r, g, b = colorSensor.get_rgb()
                     except OSError as e:
