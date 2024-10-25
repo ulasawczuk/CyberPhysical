@@ -31,7 +31,7 @@ s.listen(5)
 
 STOP_DISTANCE = 20  # cm
 RESUME_DISTANCE = 28
-MOTOR_SPEED = 10
+MOTOR_SPEED = 15
 VALUE = MOTOR_SPEED
 motor_stopped = False
 
@@ -133,14 +133,14 @@ while True:
                 elif current_color == "Red" and not turning_right:
                     print("Red tape detected, turning right.")
                     motorL.update_target_rpm(5)  
-                    motorR.update_target_rpm(0) 
+                    motorR.update_target_rpm(2) 
                     turning_right = True  
                     turning_left = False 
 
                 # If blue is detected, turn left to find black
                 elif current_color == "Blue" and not turning_left:
                     print("Blue tape detected, turning left.")
-                    motorL.update_target_rpm(0) 
+                    motorL.update_target_rpm(2) 
                     motorR.update_target_rpm(5)  
                     turning_left = True  
                     turning_right = False 
