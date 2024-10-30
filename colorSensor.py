@@ -15,7 +15,7 @@ class ColorSensor:
             if r < 40:
                 return "Black"
             return "Red"
-        elif r < 20 and b > 3 and g > 10 and not r == g == b:
+        elif r < 20 and b >= 3 and g > 10 and not r == g == b:
             return "Blue"
         elif r == g or r == g == b or r < 20 and b < 10 and g > 10:
             return "Black"
