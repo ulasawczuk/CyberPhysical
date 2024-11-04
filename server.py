@@ -31,7 +31,7 @@ s.listen(5)
 
 STOP_DISTANCE = 20  # cm
 RESUME_DISTANCE = 28
-MOTOR_SPEED = 15
+MOTOR_SPEED = 20
 VALUE = MOTOR_SPEED
 motor_stopped = False
 
