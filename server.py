@@ -64,7 +64,8 @@ while True:
     correct_color = "Black"
     found = False
 
-    halfSecond = 0
+    halfSecondColor = 0
+    halfSecondDistance = 0
     try:
         r, g, b = colorSensor.get_rgb()
     except OSError as e:
@@ -79,32 +80,29 @@ while True:
         current_time = time.time()
         if current_time - last_time >= 0.1:
             dt = current_time - last_time
-            halfSecond += dt
-            print(halfSecond)
+            halfSecondColor += dt
+            halfSecondDistance += dt
+            print(halfSecondColor)
 
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
 
-            # HANDLING DISTANCEs
+            # HANDLING DISTANCE
 
-            if controlDistance:
+            if controlDistance and halfSecondDistance >= 0.3 and halfSecondDistance <= 0.45 or halfSecondDistance >= 0.5:
                 voltage, distance = distanceSensor.read_distance()
                 print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
+                halfSecondDistance = 0
 
                 if distance <= STOP_DISTANCE and not motor_stopped and distance != 0 and motorR.target_rpm != 0:
                     # Stop motors if the object is too close
                     print("Object detected within stop distance, stopping motors.")
-                    motorL.update_target_rpm(-20)
-                    motorR.update_target_rpm(-20)
+                    motorL.update_target_rpm(-15)
+                    motorR.update_target_rpm(-15)
                     motor_stopped = True
                     followLine = False
 
-                elif distance >= RESUME_DISTANCE and distance <= RESUME_DISTANCE + 3 and motor_stopped:
-                    print("Object far enough, turning.")
-                    motorL.update_target_rpm(MOTOR_SPEED)
-                    motorR.update_target_rpm(5)
-
-                elif distance >= RESUME_DISTANCE + 3 and motor_stopped or distance == 0 and motor_stopped:
+                elif distance >= RESUME_DISTANCE and motor_stopped or distance == 0 and motor_stopped:
                     # Resume motors if object is far enough
                     print("Object far enough or avoided, resuming motors.")
                     motorL.update_target_rpm(MOTOR_SPEED)
@@ -118,18 +116,18 @@ while True:
             if followLine:
                 
                 # Sampling color every 0.4 second to avoid i2c error
-                if halfSecond >= 0.3 and halfSecond <= 0.45 or halfSecond >= 0.5:
+                if halfSecondColor >= 0.3 and halfSecondColor <= 0.45 or halfSecondColor >= 0.5:
                     try:
                         r, g, b = colorSensor.get_rgb()
                     except OSError as e:
                         print("I2C error, retrying in 0.1 seconds:", e)
                         time.sleep(0.1)  # Small delay before retrying
-                        halfSecond = 0.28
+                        halfSecondColor = 0.28
                         continue
                     current_color = colorSensor.classify_color(r, g, b)
                     print(f"red: {r}, green: {g}, blue: {b}")  
                     print(f"Color: "+ current_color)
-                    halfSecond = 0
+                    halfSecondColor = 0
 
                 if current_color == "Black" and (turning_left or turning_right):
                     # Stop turning, resume forward motion
