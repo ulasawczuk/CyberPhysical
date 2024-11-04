@@ -31,7 +31,7 @@ s.listen(5)
 
 STOP_DISTANCE = 20  # cm
 RESUME_DISTANCE = 28
-MOTOR_SPEED = 0
+MOTOR_SPEED = 15
 VALUE = MOTOR_SPEED
 motor_stopped = False
 
@@ -44,7 +44,7 @@ controlDistance = True
 
 i2c = busio.I2C(board.SCL, board.SDA)
 colorSensor = ColorSensor(i2c)
-followLine = False
+followLine = True
 colorsDiffer = False
 turning_left = False
 turning_right = False
@@ -87,12 +87,7 @@ while True:
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
 
-            # TO DELETE LATER!!
-            r, g, b = colorSensor.get_rgb()
-            current_color = colorSensor.classify_color(r, g, b)
-            print(f"red: {r}, green: {g}, blue: {b}")  
-            print(f"Color: "+ current_color)
-
+            
             # HANDLING DISTANCE
 
             if controlDistance and halfSecondDistance >= 0.3 and halfSecondDistance <= 0.45 or controlDistance and halfSecondDistance >= 0.5:
