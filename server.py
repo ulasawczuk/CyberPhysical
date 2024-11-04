@@ -78,7 +78,7 @@ while True:
     
     while True:
         current_time = time.time()
-        if current_time - last_time >= 0.1:
+        if current_time - last_time >= 0.2:
             dt = current_time - last_time
             halfSecondColor += dt
             halfSecondDistance += dt
