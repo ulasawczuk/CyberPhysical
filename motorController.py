@@ -23,7 +23,7 @@ class MotorController:
 
         # PID constants
         self.K_P = 0.007
-        self.K_I = 0.0001
+        self.K_I = 0.00015
         self.K_D = 0.00001
         self.pid = PID(self.K_P, self.K_I, self.K_D, setpoint=target_rpm)
         self.pid.output_limits = (-1, 1) 

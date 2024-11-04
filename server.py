@@ -31,7 +31,7 @@ s.listen(5)
 
 STOP_DISTANCE = 20  # cm
 RESUME_DISTANCE = 28
-MOTOR_SPEED = 20
+MOTOR_SPEED = 15
 VALUE = MOTOR_SPEED
 motor_stopped = False
 
@@ -70,7 +70,7 @@ while True:
         r, g, b = colorSensor.get_rgb()
     except OSError as e:
         print("I2C error, retrying in 0.1 seconds:", e)
-        time.sleep(0.1)  # Small delay before retrying
+        #time.sleep(0.1)  # Small delay before retrying
         continue
     current_color = colorSensor.classify_color(r, g, b)
     print(f"red: {r}, green: {g}, blue: {b}")  
@@ -122,7 +122,7 @@ while True:
                     except OSError as e:
                         print("I2C error, retrying in 0.1 seconds:", e)
                         #time.sleep(0.1)  # Small delay before retrying
-                        halfSecondColor = 0.10
+                        halfSecondColor = 0.1
                         continue
                     current_color = colorSensor.classify_color(r, g, b)
                     print(f"red: {r}, green: {g}, blue: {b}")  
