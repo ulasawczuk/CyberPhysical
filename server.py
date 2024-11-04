@@ -116,7 +116,7 @@ while True:
             if followLine:
                 
                 # Sampling color every 0.4 second to avoid i2c error
-                if halfSecondColor >= 0.4 and halfSecondColor <= 0.55 or halfSecondColor >= 0.6:
+                if halfSecondColor >= 0.5 and halfSecondColor <= 0.65 or halfSecondColor >= 0.7:
                     try:
                         r, g, b = colorSensor.get_rgb()
                     except OSError as e:
