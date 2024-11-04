@@ -40,7 +40,7 @@ motorL = MotorController(board.D21, board.D16, 19, 26, MOTOR_SPEED)  # Left moto
 motorR = MotorController(board.D25, board.D24, 13, 6, MOTOR_SPEED)  # Right motor
 
 distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D22)
-controlDistance = False
+controlDistance = True
 
 i2c = busio.I2C(board.SCL, board.SDA)
 colorSensor = ColorSensor(i2c)
