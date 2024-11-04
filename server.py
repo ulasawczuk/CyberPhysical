@@ -31,7 +31,7 @@ s.listen(5)
 
 STOP_DISTANCE = 20  # cm
 RESUME_DISTANCE = 28
-MOTOR_SPEED = 0
+MOTOR_SPEED = 15
 VALUE = MOTOR_SPEED
 motor_stopped = False
 
@@ -89,7 +89,7 @@ while True:
 
             # HANDLING DISTANCE
 
-            if controlDistance and halfSecondDistance >= 0.3 and halfSecondDistance <= 0.45 or halfSecondDistance >= 0.5:
+            if controlDistance and halfSecondDistance >= 0.3 and halfSecondDistance <= 0.45 or controlDistance and halfSecondDistance >= 0.5:
                 voltage, distance = distanceSensor.read_distance()
                 print(f"ADC Voltage: {voltage:.2f}V, Distance: {distance:.2f} cm")
                 halfSecondDistance = 0
@@ -127,8 +127,7 @@ while True:
                     current_color = colorSensor.classify_color(r, g, b)
                     print(f"red: {r}, green: {g}, blue: {b}")  
                     print(f"Color: "+ current_color)
-                    halfSecondColor = 0
-                continue     
+                    halfSecondColor = 0  
 
                 if current_color == "Black" and (turning_left or turning_right):
                     # Stop turning, resume forward motion
