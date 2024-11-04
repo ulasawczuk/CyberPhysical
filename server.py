@@ -121,7 +121,7 @@ while True:
                         r, g, b = colorSensor.get_rgb()
                     except OSError as e:
                         print("I2C error, retrying in 0.2 seconds:", e)
-                        time.sleep(0.1)  # Small delay before retrying
+                        #time.sleep(0.1)  # Small delay before retrying
                         halfSecondColor = 0.28
                         continue
                     current_color = colorSensor.classify_color(r, g, b)
