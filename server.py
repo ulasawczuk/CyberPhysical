@@ -132,11 +132,11 @@ while True:
                 if current_color == "Black" and (turning_left or turning_right):
                     # Stop turning, resume forward motion
                     if turning_left:
-                        motorL.update_target_rpm(MOTOR_SPEED)
-                        motorR.update_target_rpm(5)
+                        motorL.update_target_rpm(MOTOR_SPEED+2)
+                        motorR.update_target_rpm(4)
                     if turning_right:
-                        motorL.update_target_rpm(5)
-                        motorR.update_target_rpm(MOTOR_SPEED)
+                        motorL.update_target_rpm(4)
+                        motorR.update_target_rpm(MOTOR_SPEED+2)
                     turning_left = False
                     turning_right = False
                     found = True
