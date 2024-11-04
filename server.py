@@ -143,8 +143,8 @@ while True:
                     print("Back on black tape, turning a bit.")
 
                 elif current_color == "Black" and not turning_left and not turning_right and found:
-                    motorL.update_target_rpm(MOTOR_SPEED+5)
-                    motorR.update_target_rpm(MOTOR_SPEED+5)
+                    motorL.update_target_rpm(MOTOR_SPEED)
+                    motorR.update_target_rpm(MOTOR_SPEED)
                     found = False
                     print("Back on black tape, moving straight.")
 
