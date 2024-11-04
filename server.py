@@ -137,6 +137,7 @@ while True:
                     if turning_right:
                         motorL.update_target_rpm(4)
                         motorR.update_target_rpm(MOTOR_SPEED+4)
+                    time.sleep(0.4)
                     turning_left = False
                     turning_right = False
                     found = True
