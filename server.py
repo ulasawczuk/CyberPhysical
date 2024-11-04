@@ -108,7 +108,7 @@ while True:
                     motorL.update_target_rpm(MOTOR_SPEED)
                     motorR.update_target_rpm(MOTOR_SPEED)
                     motor_stopped = False
-                    followLine = True
+                    #followLine = True
 
 
             # HANDLING COLOR
