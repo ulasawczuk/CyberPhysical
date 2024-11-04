@@ -31,7 +31,7 @@ s.listen(5)
 
 STOP_DISTANCE = 20  # cm
 RESUME_DISTANCE = 28
-MOTOR_SPEED = 15
+MOTOR_SPEED = 0
 VALUE = MOTOR_SPEED
 motor_stopped = False
 
@@ -87,6 +87,18 @@ while True:
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
 
+            # TO DELETE LATER!!
+            try:
+                r, g, b = colorSensor.get_rgb()
+            except OSError as e:
+                print("I2C error, retrying in 0.1 seconds:", e)
+                #time.sleep(0.1)  # Small delay before retrying
+                halfSecondColor = 0.1
+                continue
+            current_color = colorSensor.classify_color(r, g, b)
+            print(f"red: {r}, green: {g}, blue: {b}")  
+            print(f"Color: "+ current_color)
+
             # HANDLING DISTANCE
 
             if controlDistance and halfSecondDistance >= 0.3 and halfSecondDistance <= 0.45 or controlDistance and halfSecondDistance >= 0.5:
@@ -108,7 +120,7 @@ while True:
                     motorL.update_target_rpm(MOTOR_SPEED)
                     motorR.update_target_rpm(MOTOR_SPEED)
                     motor_stopped = False
-                    #followLine = True
+                    followLine = True
 
 
             # HANDLING COLOR
