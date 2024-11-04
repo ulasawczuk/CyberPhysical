@@ -78,7 +78,7 @@ while True:
     
     while True:
         current_time = time.time()
-        if current_time - last_time >= 0.2:
+        if current_time - last_time >= 0.1:
             dt = current_time - last_time
             halfSecondColor += dt
             halfSecondDistance += dt
@@ -116,7 +116,7 @@ while True:
             if followLine:
                 
                 # Sampling color every 0.4 second to avoid i2c error
-                if halfSecondColor >= 0.4 and halfSecondColor <= 0.55 or halfSecondColor >= 0.6:
+                if halfSecondColor >= 0.3 and halfSecondColor <= 0.45 or halfSecondColor >= 0.5:
                     try:
                         r, g, b = colorSensor.get_rgb()
                     except OSError as e:
