@@ -78,7 +78,7 @@ while True:
     
     while True:
         current_time = time.time()
-        if current_time - last_time >= 0.1:
+        if current_time - last_time >= 0.2:
             dt = current_time - last_time
             halfSecondColor += dt
             halfSecondDistance += dt
@@ -120,7 +120,7 @@ while True:
                     try:
                         r, g, b = colorSensor.get_rgb()
                     except OSError as e:
-                        print("I2C error, retrying in 0.1 seconds:", e)
+                        print("I2C error, retrying in 0.2 seconds:", e)
                         time.sleep(0.1)  # Small delay before retrying
                         halfSecondColor = 0.28
                         continue
