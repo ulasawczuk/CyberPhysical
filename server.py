@@ -223,12 +223,12 @@ while True:
 
                 if key == 'w':
                     print('Moving forward')
-                    motorL.motor.throttle = 0.8
-                    motorR.motor.throttle = 0.8
+                    motorL.motor.throttle = 0.7
+                    motorR.motor.throttle = 0.7
                 elif key == 's':
                     print('Moving backward')
-                    motorL.motor.throttle = -0.8
-                    motorR.motor.throttle = -0.8
+                    motorL.motor.throttle = -0.7
+                    motorR.motor.throttle = -0.7
                 elif key == 'a':  # Turning left
                     motorL.motor.throttle = 0
                     motorR.motor.throttle = 0.5
