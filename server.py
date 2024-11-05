@@ -201,21 +201,26 @@ while True:
 
                 if key == 'w':
                     print('Moving forward')
-                    motorL.update_target_rpm(VALUE)
-                    motorR.update_target_rpm(VALUE)
+                    motorL.throttle = 0.8
+                    motorR.throttle = 0.8
                 elif key == 's':
                     print('Moving backward')
-                    motorL.update_target_rpm(-1*VALUE)
-                    motorR.update_target_rpm(-1*VALUE)
+                    motorL.throttle = -0.8
+                    motorR.throttle = -0.8
                 elif key == 'a':  # Turning left
-                    motorL.update_target_rpm(-VALUE)  # Decrease left motor speed
-                    motorR.update_target_rpm(VALUE)   # Increase right motor speed
+                    motorL.throttle = 0
+                    motorR.throttle = 0.5
                 elif key == 'd':  # Turning right
-                    motorL.update_target_rpm(VALUE)    # Increase left motor speed
-                    motorR.update_target_rpm(-VALUE)   # Decrease right motor speed
+                    motorL.throttle = 0.5
+                    motorR.throttle = 0
                 elif key == 'q':  # Stop
-                    motorL.update_target_rpm(0)  # Bring left motor RPM to 0
-                    motorR.update_target_rpm(0)
+                    motorL.throttle = 0
+                    motorR.throttle = 0
+                elif key == 'f':
+                    followLine = not followLine
+                elif key == 'g':
+                    controlDistance = not controlDistance
+                
 
                 # Adjust PID constants based on key press
                 motorL.adjust_pid_constants(key)
