@@ -206,8 +206,8 @@ while True:
 
                 if key == 'w':
                     print('Moving forward')
-                    motorL.throttle = 0.8
-                    motorR.throttle = 0.8
+                    motorL.motor.throttle = 0.8
+                    motorR.motor.throttle = 0.8
                 elif key == 's':
                     print('Moving backward')
                     motorL.throttle = -0.8
