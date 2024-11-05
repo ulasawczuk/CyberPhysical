@@ -13,7 +13,9 @@ class ColorSensor:
         # Classify the color based on the RGB values
         if r > g + b:
             return "Red"
-        elif b > r + g or b > 15:
+        elif r < 30 and b >= 3 and g > 10 and not r == g == b or r == 16 and g == 16 and b == 16 or b > g + r:
             return "Blue"
-        else:
+        elif r == g or r == g == b or r < 20 and b < 10 and g > 10:
             return "Black"
+        else:
+            return "Unknown"
