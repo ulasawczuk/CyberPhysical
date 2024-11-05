@@ -210,23 +210,26 @@ while True:
                     motorR.motor.throttle = 0.8
                 elif key == 's':
                     print('Moving backward')
-                    motorL.throttle = -0.8
-                    motorR.throttle = -0.8
+                    motorL.motor.throttle = -0.8
+                    motorR.motor.throttle = -0.8
                 elif key == 'a':  # Turning left
-                    motorL.throttle = 0
-                    motorR.throttle = 0.5
+                    motorL.motor.throttle = 0
+                    motorR.motor.throttle = 0.5
                 elif key == 'd':  # Turning right
-                    motorL.throttle = 0.5
-                    motorR.throttle = 0
+                    motorL.motor.throttle = 0.5
+                    motorR.motor.throttle = 0
                 elif key == 'q':  # Stop
-                    motorL.throttle = 0
-                    motorR.throttle = 0
+                    motorL.motor.throttle = 0
+                    motorR.motor.throttle = 0
                 elif key == 'f':
-                    followLine = not followLine
+                    t = followLine
+                    followLine = not t
                 elif key == 'g':
-                    controlDistance = not controlDistance
+                    t = followLine
+                    controlDistance = not t
                 elif key == 'u':
-                    update = not update
+                    t = update
+                    update = not t
                 
 
                 # Adjust PID constants based on key press
