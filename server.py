@@ -235,6 +235,7 @@ while True:
                 elif key == 'u':
                     t = update
                     update = not t
+                    print(update)
                 
 
                 # Adjust PID constants based on key press
