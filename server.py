@@ -124,10 +124,17 @@ while True:
                         print("I2C error, retrying in 0.1 seconds:", e)
                         #time.sleep(0.1)  # Small delay before retrying
                         halfSecondColor = 0
+                        error = True
                     current_color = colorSensor.classify_color(r, g, b)
                     print(f"red: {r}, green: {g}, blue: {b}")  
                     print(f"Color: "+ current_color)
+                    if error:
+                        current_color = "Stop" # stop if there was an error
                     halfSecondColor = 0  
+
+                if current_color == "Stop":
+                    motorL.update_target_rpm(0)
+                    motorR.update_target_rpm(0)
 
                 if current_color == "Black" and (turning_left or turning_right):
                     # Stop turning, resume forward motion
