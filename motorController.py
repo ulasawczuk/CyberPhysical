@@ -31,6 +31,7 @@ class MotorController:
         self.target_rpm = target_rpm
         self.power = 1000000
         self.gotToTarget = False
+        self.motor.throttle = 0
 
     def calculate_rpm(self, dt):
         steps_per_rev = 836

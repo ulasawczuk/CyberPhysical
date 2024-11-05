@@ -39,8 +39,6 @@ motor_stopped = False
 motorL = MotorController(board.D21, board.D16, 19, 26, 0)  # Left motor
 motorR = MotorController(board.D25, board.D24, 13, 6, 0)  # Right motor
 
-motorL.reset_throttle()
-motorR.reset_throttle()
 
 distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D22)
 controlDistance = True
