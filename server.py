@@ -89,8 +89,8 @@ while True:
             halfSecondDistance += dt
             print(halfSecondColor)
             
-            motorL.update_motor_power(dt)
-            motorR.update_motor_power(dt)
+            #motorL.update_motor_power(dt)
+            #motorR.update_motor_power(dt)
 
             # HANDLING DISTANCE
 
@@ -102,16 +102,20 @@ while True:
                 if distance <= STOP_DISTANCE and not motor_stopped and distance != 0 and motorR.target_rpm != 0:
                     # Stop motors if the object is too close
                     print("Object detected within stop distance, stopping motors.")
-                    motorL.update_target_rpm(-15)
-                    motorR.update_target_rpm(-15)
+                    #motorL.update_target_rpm(-15)
+                    #motorR.update_target_rpm(-15)
+                    motorL.motor.throttle = -0.8
+                    motorR.motor.throttle = -0.8
                     motor_stopped = True
                     followLine = False
 
                 elif distance >= RESUME_DISTANCE and motor_stopped or distance == 0 and motor_stopped:
                     # Resume motors if object is far enough
                     print("Object far enough or avoided, resuming motors.")
-                    motorL.update_target_rpm(MOTOR_SPEED)
-                    motorR.update_target_rpm(MOTOR_SPEED)
+                    #motorL.update_target_rpm(MOTOR_SPEED)
+                    #motorR.update_target_rpm(MOTOR_SPEED)
+                    motorL.motor.throttle = 0.8
+                    motorR.motor.throttle = 0.8
                     motor_stopped = False
                     followLine = True
 
@@ -139,33 +143,43 @@ while True:
                     halfSecondColor = 0  
 
                 if current_color == "Stop":
-                    motorL.update_target_rpm(0)
-                    motorR.update_target_rpm(0)
+                    #motorL.update_target_rpm(0)
+                    #motorR.update_target_rpm(0)
+                    motorL.motor.throttle = 0
+                    motorR.motor.throttle = 0
 
                 if current_color == "Black" and (turning_left or turning_right):
                     # Stop turning, resume forward motion
                     if turning_left:
-                        motorL.update_target_rpm(20)
-                        motorR.update_target_rpm(8)
+                        #motorL.update_target_rpm(20)
+                        #motorR.update_target_rpm(8)
+                        motorL.motor.throttle = 0.5
+                        motorR.motor.throttle = 0.2
                     if turning_right:
-                        motorL.update_target_rpm(8)
-                        motorR.update_target_rpm(20)
+                        #motorL.update_target_rpm(8)
+                        #motorR.update_target_rpm(20)
+                        motorL.motor.throttle = 0.2
+                        motorR.motor.throttle = 0.5
                     turning_left = False
                     turning_right = False
                     found = True
                     print("Back on black tape, turning a bit.")
 
                 elif current_color == "Black" and not turning_left and not turning_right and found:
-                    motorL.update_target_rpm(MOTOR_SPEED)
-                    motorR.update_target_rpm(MOTOR_SPEED)
+                    #motorL.update_target_rpm(MOTOR_SPEED)
+                    #motorR.update_target_rpm(MOTOR_SPEED)
+                    motorL.motor.throttle = 0.8
+                    motorR.motor.throttle = 0.8
                     found = False
                     print("Back on black tape, moving straight.")
 
                 # If red is detected, turn right to find black
                 elif current_color == "Red" and not turning_right:
                     print("Red tape detected, turning right.")
-                    motorL.update_target_rpm(24)  
-                    motorR.update_target_rpm(9) 
+                    #motorL.update_target_rpm(24)  
+                    #motorR.update_target_rpm(9) 
+                    motorL.motor.throttle = 0.3
+                    motorR.motor.throttle = 0.1
                     turning_right = True  
                     turning_left = False 
                     #halfSecondColor = 0.1
@@ -173,8 +187,10 @@ while True:
                 # If blue is detected, turn left to find black
                 elif current_color == "Blue" and not turning_left:
                     print("Blue tape detected, turning left.")
-                    motorL.update_target_rpm(9) 
-                    motorR.update_target_rpm(24)  
+                    #motorL.update_target_rpm(9) 
+                    #motorR.update_target_rpm(24)  
+                    motorL.motor.throttle = 0.1
+                    motorR.motor.throttle = 0.3
                     turning_left = True  
                     turning_right = False
                     #halfSecondColor = 0.1
