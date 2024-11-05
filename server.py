@@ -64,6 +64,8 @@ while True:
     correct_color = "Black"
     found = False
 
+    error = False
+
     halfSecondColor = 0
     halfSecondDistance = 0
     try:
@@ -120,6 +122,7 @@ while True:
                 if halfSecondColor >= 0.2:
                     try:
                         r, g, b = colorSensor.get_rgb()
+                        error = False
                     except OSError as e:
                         print("I2C error, retrying in 0.1 seconds:", e)
                         #time.sleep(0.1)  # Small delay before retrying
