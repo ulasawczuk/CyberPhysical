@@ -173,6 +173,18 @@ while True:
                     turning_left = True  
                     turning_right = False 
 
+                elif current_color == "Red" and turning_right:
+                    motorL.update_target_rpm(23)  
+                    motorR.update_target_rpm(-3) 
+                    turning_right = False
+                    turning_left = False 
+
+                elif current_color == "Blue" and turning_left:
+                    motorL.update_target_rpm(-3)  
+                    motorR.update_target_rpm(23) 
+                    turning_left = False
+                    turning_right = False 
+
 
                 
             last_time = current_time 
