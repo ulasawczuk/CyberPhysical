@@ -48,7 +48,7 @@ followLine = True
 colorsDiffer = False
 turning_left = False
 turning_right = False
-update = True
+update = False
 
 
 while True:
