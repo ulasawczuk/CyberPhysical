@@ -178,7 +178,7 @@ while True:
                     print("Red tape detected, turning right.")
                     #motorL.update_target_rpm(24)  
                     #motorR.update_target_rpm(9) 
-                    motorL.motor.throttle = 0.3
+                    motorL.motor.throttle = 0.35
                     motorR.motor.throttle = 0.1
                     turning_right = True  
                     turning_left = False 
@@ -190,7 +190,7 @@ while True:
                     #motorL.update_target_rpm(9) 
                     #motorR.update_target_rpm(24)  
                     motorL.motor.throttle = 0.1
-                    motorR.motor.throttle = 0.3
+                    motorR.motor.throttle = 0.35
                     turning_left = True  
                     turning_right = False
                     #halfSecondColor = 0.1
