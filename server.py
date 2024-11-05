@@ -170,7 +170,7 @@ while True:
                     motorR.update_target_rpm(0) 
                     turning_right = True  
                     turning_left = False 
-                    halfSecondColor = 0.1
+                    #halfSecondColor = 0.1
 
                 # If blue is detected, turn left to find black
                 elif current_color == "Blue" and not turning_left:
@@ -179,7 +179,7 @@ while True:
                     motorR.update_target_rpm(24)  
                     turning_left = True  
                     turning_right = False
-                    halfSecondColor = 0.1
+                    #halfSecondColor = 0.1
 
                 
             last_time = current_time 
