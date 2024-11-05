@@ -29,8 +29,8 @@ except socket.error as e:
 # Max 5 pending connections
 s.listen(5)
 
-STOP_DISTANCE = 20  # cm
-RESUME_DISTANCE = 28
+STOP_DISTANCE = 30  # cm
+RESUME_DISTANCE = 40
 MOTOR_SPEED = 45
 VALUE = MOTOR_SPEED
 motor_stopped = False
@@ -80,7 +80,7 @@ while True:
             print("I2C error, retrying in 0.1 seconds:", e)
             #time.sleep(0.1)  # Small delay before retrying
             continue
-        current_color = colorSensor.classify_color(r, g, b)
+        current_color = colorSensor.classify_color(r, g, b)ww
         print(f"red: {r}, green: {g}, blue: {b}")  
         print(f"Color: "+ current_color)
     
