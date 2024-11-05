@@ -36,8 +36,8 @@ VALUE = MOTOR_SPEED
 motor_stopped = False
 
 # Initialize motor controllers for left and right motors
-motorL = MotorController(board.D21, board.D16, 19, 26, MOTOR_SPEED)  # Left motor
-motorR = MotorController(board.D25, board.D24, 13, 6, MOTOR_SPEED)  # Right motor
+motorL = MotorController(board.D21, board.D16, 19, 26, 0)  # Left motor
+motorR = MotorController(board.D25, board.D24, 13, 6, 0)  # Right motor
 
 motorL.reset_throttle()
 motorR.reset_throttle()
