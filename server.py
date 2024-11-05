@@ -51,7 +51,6 @@ followLine = True
 colorsDiffer = False
 turning_left = False
 turning_right = False
-update = True
 
 
 while True:
@@ -92,9 +91,8 @@ while True:
             halfSecondDistance += dt
             print(halfSecondColor)
             
-            if update:
-                motorL.update_motor_power(dt)
-                motorR.update_motor_power(dt)
+            motorL.update_motor_power(dt)
+            motorR.update_motor_power(dt)
 
             # HANDLING DISTANCE
 
