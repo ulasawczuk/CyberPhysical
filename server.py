@@ -47,11 +47,11 @@ controlDistance = True
 
 i2c = busio.I2C(board.SCL, board.SDA)
 colorSensor = ColorSensor(i2c)
-followLine = False
+followLine = True
 colorsDiffer = False
 turning_left = False
 turning_right = False
-update = False
+update = True
 
 
 while True:
@@ -129,7 +129,7 @@ while True:
                     try:
                         r, g, b = colorSensor.get_rgb()
                         error = False
-                    except OSError as e:
+                    except OSError as e:   
                         print("I2C error, retrying in 0.1 seconds:", e)
                         #time.sleep(0.1)  # Small delay before retrying
                         halfSecondColor = 0
