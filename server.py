@@ -132,6 +132,7 @@ while True:
                         #time.sleep(0.1)  # Small delay before retrying
                         halfSecondColor = 0
                         error = True
+                        continue
                     current_color = colorSensor.classify_color(r, g, b)
                     print(f"red: {r}, green: {g}, blue: {b}")  
                     print(f"Color: "+ current_color)
