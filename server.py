@@ -105,8 +105,8 @@ while True:
                     print("Object detected within stop distance, stopping motors.")
                     #motorL.update_target_rpm(-15)
                     #motorR.update_target_rpm(-15)
-                    motorL.motor.throttle = -0.8
-                    motorR.motor.throttle = -0.8
+                    motorL.motor.throttle = -0.3
+                    motorR.motor.throttle = -0.3
                     motor_stopped = True
                     followLine = False
 
@@ -115,8 +115,8 @@ while True:
                     print("Object far enough or avoided, resuming motors.")
                     #motorL.update_target_rpm(MOTOR_SPEED)
                     #motorR.update_target_rpm(MOTOR_SPEED)
-                    motorL.motor.throttle = 0.8
-                    motorR.motor.throttle = 0.8
+                    motorL.motor.throttle = 0.3
+                    motorR.motor.throttle = 0.3
                     motor_stopped = False
                     followLine = True
 
