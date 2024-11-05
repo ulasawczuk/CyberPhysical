@@ -87,7 +87,6 @@ while True:
             motorL.update_motor_power(dt)
             motorR.update_motor_power(dt)
 
-            
             # HANDLING DISTANCE
 
             if controlDistance and halfSecondDistance >= 0.3 and halfSecondDistance <= 0.45 or controlDistance and halfSecondDistance >= 0.5:
@@ -133,11 +132,11 @@ while True:
                 if current_color == "Black" and (turning_left or turning_right):
                     # Stop turning, resume forward motion
                     if turning_left:
-                        motorL.update_target_rpm(MOTOR_SPEED+4)
-                        motorR.update_target_rpm(4)
+                        motorL.update_target_rpm(20)
+                        motorR.update_target_rpm(5)
                     if turning_right:
-                        motorL.update_target_rpm(4)
-                        motorR.update_target_rpm(MOTOR_SPEED+4)
+                        motorL.update_target_rpm(5)
+                        motorR.update_target_rpm(20)
                     turning_left = False
                     turning_right = False
                     found = True
@@ -152,7 +151,7 @@ while True:
                 # If red is detected, turn right to find black
                 elif current_color == "Red" and not turning_right:
                     print("Red tape detected, turning right.")
-                    motorL.update_target_rpm(MOTOR_SPEED+8)  
+                    motorL.update_target_rpm(23)  
                     motorR.update_target_rpm(5) 
                     turning_right = True  
                     turning_left = False 
@@ -161,7 +160,7 @@ while True:
                 elif current_color == "Blue" and not turning_left:
                     print("Blue tape detected, turning left.")
                     motorL.update_target_rpm(5) 
-                    motorR.update_target_rpm(MOTOR_SPEED+8)  
+                    motorR.update_target_rpm(23)  
                     turning_left = True  
                     turning_right = False 
 
