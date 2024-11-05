@@ -89,8 +89,9 @@ while True:
             halfSecondDistance += dt
             print(halfSecondColor)
             
-            motorL.update_motor_power(dt)
-            motorR.update_motor_power(dt)
+            if current_color == "Black":
+                motorL.update_motor_power(dt)
+                motorR.update_motor_power(dt)
 
             # HANDLING DISTANCE
 
