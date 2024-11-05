@@ -36,8 +36,8 @@ VALUE = MOTOR_SPEED
 motor_stopped = False
 
 # Initialize motor controllers for left and right motors
-motorL = MotorController(board.D21, board.D16, 19, 26, 0)  # Left motor
-motorR = MotorController(board.D25, board.D24, 13, 6, 0)  # Right motor
+motorL = MotorController(board.D21, board.D16, 19, 26, 1)  # Left motor
+motorR = MotorController(board.D25, board.D24, 13, 6, 1)  # Right motor
 
 
 distanceSensor = DistanceSensor(clock_pin=board.SCK, miso_pin=board.MISO, mosi_pin=board.MOSI, cs_pin=board.D22)
