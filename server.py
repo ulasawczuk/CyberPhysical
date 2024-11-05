@@ -48,6 +48,7 @@ followLine = True
 colorsDiffer = False
 turning_left = False
 turning_right = False
+update = True
 
 
 while True:
@@ -58,8 +59,8 @@ while True:
     c.send(b'Thank you for connecting')
     last_time = time.time()
 
-    motorL.reset_throttle()
-    motorR.reset_throttle()
+    #motorL.reset_throttle()
+    #motorR.reset_throttle()
 
     correct_color = "Black"
     found = False
@@ -85,9 +86,10 @@ while True:
             halfSecondColor += dt
             halfSecondDistance += dt
             print(halfSecondColor)
-
-            motorL.update_motor_power(dt)
-            motorR.update_motor_power(dt)
+            
+            if update:
+                motorL.update_motor_power(dt)
+                motorR.update_motor_power(dt)
 
             # HANDLING DISTANCE
 
@@ -220,6 +222,8 @@ while True:
                     followLine = not followLine
                 elif key == 'g':
                     controlDistance = not controlDistance
+                elif key == 'u':
+                    update = not update
                 
 
                 # Adjust PID constants based on key press
