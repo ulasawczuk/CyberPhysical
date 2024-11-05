@@ -116,13 +116,13 @@ while True:
             if followLine:
                 
                 # Sampling color every 0.4 second to avoid i2c error
-                if halfSecondColor >= 0.3 and halfSecondColor <= 0.45 or halfSecondColor >= 0.5:
+                if halfSecondColor >= 0.2:
                     try:
                         r, g, b = colorSensor.get_rgb()
                     except OSError as e:
                         print("I2C error, retrying in 0.1 seconds:", e)
                         #time.sleep(0.1)  # Small delay before retrying
-                        halfSecondColor = 0.1
+                        halfSecondColor = 0.0
                         continue
                     current_color = colorSensor.classify_color(r, g, b)
                     print(f"red: {r}, green: {g}, blue: {b}")  
