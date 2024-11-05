@@ -89,8 +89,8 @@ while True:
             halfSecondDistance += dt
             print(halfSecondColor)
             
-            #motorL.update_motor_power(dt)
-            #motorR.update_motor_power(dt)
+            motorL.update_motor_power(dt)
+            motorR.update_motor_power(dt)
 
             # HANDLING DISTANCE
 
@@ -166,10 +166,10 @@ while True:
                     print("Back on black tape, turning a bit.")
 
                 elif current_color == "Black" and not turning_left and not turning_right and found:
-                    #motorL.update_target_rpm(MOTOR_SPEED)
-                    #motorR.update_target_rpm(MOTOR_SPEED)
-                    motorL.motor.throttle = 0.3
-                    motorR.motor.throttle = 0.3
+                    motorL.update_target_rpm(MOTOR_SPEED)
+                    motorR.update_target_rpm(MOTOR_SPEED)
+                    #motorL.motor.throttle = 0.3
+                    #motorR.motor.throttle = 0.3
                     found = False
                     print("Back on black tape, moving straight.")
 
