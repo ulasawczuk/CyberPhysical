@@ -242,6 +242,8 @@ while True:
                 elif key == 'f':
                     t = followLine
                     followLine = not t
+                    if t == True:
+                        current_color = "None"
                 elif key == 'g':
                     t = followLine
                     controlDistance = not t
