@@ -45,7 +45,7 @@ controlDistance = True
 
 i2c = busio.I2C(board.SCL, board.SDA)
 colorSensor = ColorSensor(i2c)
-followLine = True
+followLine = False
 colorsDiffer = False
 turning_left = False
 turning_right = False
